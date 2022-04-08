@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CalorieTrackerFP.app.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -112,8 +112,8 @@
             <AnchorPane prefHeight="294.0" prefWidth="383.0" style="-fx-border-color: DARKGREY;">
                <children>
                   <Label layoutX="118.0" layoutY="15.0" prefHeight="17.0" prefWidth="79.0" text="View User Info" />
-                  <Button layoutX="205.0" layoutY="11.0" mnemonicParsing="false" text="Button" />
-                  <TextArea layoutX="24.0" layoutY="47.0" prefHeight="200.0" prefWidth="306.0" />
+                  <Button layoutX="205.0" layoutY="11.0" mnemonicParsing="false" onAction="#viewUserInfoButton" text="Button" />
+                  <TextArea fx:id="viewUserInfoTextArea" layoutX="24.0" layoutY="47.0" prefHeight="200.0" prefWidth="306.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="166.0" prefWidth="383.0" style="-fx-border-color: BLUE;">
