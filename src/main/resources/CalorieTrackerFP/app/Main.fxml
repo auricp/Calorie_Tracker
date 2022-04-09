@@ -46,7 +46,13 @@
       </MenuBar>
    </top>
    <bottom>
-      <HBox prefHeight="21.0" prefWidth="600.0" style="-fx-border-color: RED;" BorderPane.alignment="CENTER" />
+      <HBox prefHeight="21.0" prefWidth="600.0" style="-fx-border-color: RED;" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Errors:" />
+            <Label fx:id="errorMsg" prefHeight="17.0" prefWidth="225.0" textFill="#ee0a0a" />
+            <Label text="Success:" />
+            <Label fx:id="successMsg" prefHeight="17.0" prefWidth="195.0" textFill="#1edd27" />
+         </children></HBox>
    </bottom>
    <center>
       <VBox prefHeight="754.0" prefWidth="506.0" BorderPane.alignment="CENTER">
@@ -73,7 +79,7 @@
             <AnchorPane prefHeight="208.0" prefWidth="438.0" style="-fx-border-color: BLACK;">
                <children>
                   <Label layoutX="6.0" layoutY="6.0" text="User Info:" />
-                  <Button layoutX="144.0" layoutY="168.0" mnemonicParsing="false" text="Update" />
+                  <Button layoutX="144.0" layoutY="168.0" mnemonicParsing="false" onMouseClicked="#infoUpdate" text="Update" />
                   <GridPane alignment="CENTER" layoutX="9.0" layoutY="32.0" prefHeight="122.0" prefWidth="326.0" vgap="7.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.20001220703125" minWidth="10.0" prefWidth="64.79998779296875" />
@@ -89,21 +95,21 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ChoiceBox prefHeight="32.0" prefWidth="122.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ChoiceBox prefHeight="35.0" prefWidth="126.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField alignment="CENTER" prefHeight="37.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ChoiceBox fx:id="goalChoose" prefHeight="32.0" prefWidth="122.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="genderChoose" prefHeight="35.0" prefWidth="126.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="ageInput" alignment="CENTER" prefHeight="37.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label alignment="CENTER" prefHeight="57.0" prefWidth="90.0" text="Goal" GridPane.rowIndex="1" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="69.0" text="Gender" textAlignment="CENTER" GridPane.rowIndex="2" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="100.0" text="Age" GridPane.rowIndex="3" />
-                        <TextField prefHeight="50.0" prefWidth="166.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <TextField fx:id="heightInput" prefHeight="50.0" prefWidth="166.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                         <Label alignment="CENTER" prefHeight="122.0" prefWidth="158.0" text="height" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <TextField prefHeight="46.0" prefWidth="158.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                        <TextField prefHeight="43.0" prefWidth="153.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <TextField fx:id="neckInput" prefHeight="46.0" prefWidth="158.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <TextField fx:id="waistInput" prefHeight="43.0" prefWidth="153.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                         <Label alignment="CENTER" prefHeight="184.0" prefWidth="240.0" text="neck" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                         <Label alignment="CENTER" prefHeight="230.0" prefWidth="270.0" text="waist" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <TextField prefHeight="40.0" prefWidth="148.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="weightInput" prefHeight="40.0" prefWidth="148.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label alignment="CENTER" prefHeight="68.0" prefWidth="107.0" text="Weight" GridPane.rowIndex="4" />
-                        <TextField prefHeight="55.0" prefWidth="164.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <TextField fx:id="hipInput" prefHeight="55.0" prefWidth="164.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                         <Label alignment="CENTER" prefHeight="170.0" prefWidth="220.0" text="hip" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
