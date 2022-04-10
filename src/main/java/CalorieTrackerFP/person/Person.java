@@ -102,4 +102,10 @@ public class Person {
         return output;
     }
 
+    public double getBmi(){
+        double heightM = this.height / 100;
+        double heightMSquared = Math.pow(heightM, 2);
+        double bmi = this.getWeight() / heightMSquared;
+        return bmi;
+    }
 }

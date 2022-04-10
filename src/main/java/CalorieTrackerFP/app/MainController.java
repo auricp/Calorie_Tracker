@@ -30,6 +30,9 @@ public class MainController {
     private TextField hipInput;
 
     @FXML
+    private RadioButton bmiRadio;
+
+    @FXML
     private TextField neckInput;
 
     @FXML
@@ -48,10 +51,7 @@ public class MainController {
     private TextArea viewUserInfoTextArea;
 
     @FXML
-    private RadioButton bodyFatPercentageButton;
-
-    @FXML
-    private RadioButton bodyMassIndexButton;
+    private TextArea bmiBfPrint;
 
     @FXML
     private TextArea calculationTextArea;
@@ -168,6 +168,7 @@ public class MainController {
             System.out.print("Error");
         }
         successMsg.setText("User info updated!");
+        System.out.print("\nBmi is " + User.getBmi() );
     }
 
     @FXML
@@ -175,20 +176,6 @@ public class MainController {
         viewUserInfoTextArea.setText("AYO");
     }
 
-    @FXML
-    void bodyFatPercentageButtonToggled(ActionEvent event) {
-        bodyMassIndexButton.setSelected(false);
-        //do the body fat % calc
-        calculationTextArea.setText("Your body fat percentage is ");
-    }
-
-    @FXML
-    void bodyMassIndexButtonToggled(ActionEvent event) {
-        bodyFatPercentageButton.setSelected(false);
-        //do the bmi calc
-        calculationTextArea.setText("Your BMI is ");
-
-    }
 
     @FXML
     void addExerciseButtonToggled(ActionEvent event) {
@@ -196,6 +183,35 @@ public class MainController {
         itemNameLabel.setText("Exercise:");
         addItemToMapButton.setText("Add exercise");
     }
+
+    @FXML
+    void generateBfBmi(MouseEvent event) {
+        try{
+            if(bmiRadio.isSelected()){
+                System.out.print("\n Radio works");
+                bmiBfPrint.setText(String.valueOf(User.getBmi()));
+            }
+        }catch (Exception e){
+            System.out.print(e);
+            errorMsg.setText("Did not select calculation");
+        }
+    }
+
+    /**
+     @FXML
+     void bodyFatPercentageButtonToggled(ActionEvent event) {
+     bodyMassIndexButton.setSelected(false);
+     //do the body fat % calc
+     calculationTextArea.setText("Your body fat percentage is ");
+     }
+
+     @FXML
+     void bodyMassIndexButtonToggled(ActionEvent event) {
+     bodyFatPercentageButton.setSelected(false);
+     //do the bmi calc
+     calculationTextArea.setText("Your BMI is ");
+     }
+     */
 
     @FXML
     void addFoodButtonToggled(ActionEvent event) {
