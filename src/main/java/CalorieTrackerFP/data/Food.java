@@ -1,4 +1,51 @@
 package CalorieTrackerFP.data;
 
-public class Food {
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Food extends UserMapData {
+
+    private HashMap<String,Integer> foodMap = new HashMap<>();
+
+//    dataName, int calories
+//    public Food() {
+//        //super(dataName, calories);
+//    }
+
+    /**
+     * making an override for the getMap method in the UserData class that makes a clones map of the food map and returns
+     * it for later use in the Main class
+     */
+    @Override
+    public HashMap<String,Integer> getMap() {
+        HashMap<String,Integer> clonedMap = new HashMap<>(foodMap);
+        return clonedMap;
+    }
+
+    /**
+     * This function is an override for the setMapData method in the UserData class and with its parameter updates the foodMap
+     * @param calories is calories inputted
+     * @param food is food inputted
+     */
+    @Override
+    public void addToMap(String food, int calories) {
+        this.foodMap.put(food, calories);
+    }
+
+    /**
+     * This function takes all of the information in the food hashmap and turns it into a string so that it is readable
+     * if the user asks for the corresponding menu option
+     * @return the string output for the food map
+     */
+    @Override
+    public String toString() {
+        String output = "\n";
+        // Using a loop for the hashmap to print out all the food with their corresponding calories
+        for(String key:foodMap.keySet()){
+            String newThing = "Food: " + key + " | Calories: " + foodMap.get(key) + "\n";
+            output += newThing;
+            //System.out.println("Food: " + key + " | Calories: " + foodMap.get(key));
+        }
+        return output;
+    }
 }
