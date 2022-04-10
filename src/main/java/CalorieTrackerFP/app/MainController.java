@@ -40,6 +40,18 @@ public class MainController {
     @FXML
     private ChoiceBox<String> genderChoose;
 
+    @FXML
+    private TextArea viewUserInfoTextArea;
+
+    @FXML
+    private RadioButton bodyFatPercentageButton;
+
+    @FXML
+    private RadioButton bodyMassIndexButton;
+
+    @FXML
+    private TextArea calculationTextArea;
+
     Person User = new Person();
 
     private String[] goals = new String[]{"muscle", "loss", "maintenance"};
@@ -119,10 +131,22 @@ public class MainController {
     }
 
     @FXML
-    private TextArea viewUserInfoTextArea;
-
-    @FXML
     void viewUserInfoButton(ActionEvent event) {
         viewUserInfoTextArea.setText("AYO");
+    }
+
+    @FXML
+    void bodyFatPercentageButtonToggled(ActionEvent event) {
+        bodyMassIndexButton.setSelected(false);
+        //do the body fat % calc
+        calculationTextArea.setText("Your body fat percentage is ");
+    }
+
+    @FXML
+    void bodyMassIndexButtonToggled(ActionEvent event) {
+        bodyFatPercentageButton.setSelected(false);
+        //do the bmi calc
+        calculationTextArea.setText("Your BMI is ");
+
     }
 }
