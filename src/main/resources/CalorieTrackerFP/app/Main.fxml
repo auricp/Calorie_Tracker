@@ -30,6 +30,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#loadFile" text="Load" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
@@ -75,7 +77,20 @@
                 <NumberAxis label="CALORIES" prefHeight="248.0" prefWidth="43.0" side="LEFT" />
               </yAxis>
             </BarChart>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" text="Measurement Converter" />
+                  <TextField fx:id="lbsToKg" layoutX="78.0" layoutY="75.0" prefHeight="26.0" prefWidth="83.0" />
+                  <Label layoutX="14.0" layoutY="79.0" text="Lbs Input" />
+                  <Label layoutX="4.0" layoutY="120.0" text="Inches Input" />
+                  <TextField fx:id="InToCm" layoutX="78.0" layoutY="115.0" prefHeight="26.0" prefWidth="83.0" />
+                  <Button layoutX="347.0" layoutY="161.0" mnemonicParsing="false" onAction="#convertMeasurement" text="Convert" />
+                  <Label layoutX="215.0" layoutY="79.0" text="Kg Conversion" />
+                  <TextField fx:id="lbsToKgOutput" layoutX="302.0" layoutY="75.0" prefHeight="26.0" prefWidth="83.0" />
+                  <Label layoutX="213.0" layoutY="119.0" text="Cm Conversion" />
+                  <TextField fx:id="InToCmOutput" layoutX="302.0" layoutY="115.0" prefHeight="26.0" prefWidth="83.0" />
+               </children></AnchorPane>
+            <TextField />
          </children>
       </VBox>
    </center>
@@ -84,7 +99,7 @@
          <children>
             <AnchorPane prefHeight="208.0" prefWidth="438.0" style="-fx-border-color: BLACK;">
                <children>
-                  <Label layoutX="6.0" layoutY="6.0" text="User Info:" />
+                  <Label layoutX="6.0" layoutY="6.0" text="User Info (kg and cm):" />
                   <Button layoutX="144.0" layoutY="168.0" mnemonicParsing="false" onMouseClicked="#infoUpdate" text="Update" />
                   <GridPane alignment="CENTER" layoutX="9.0" layoutY="32.0" prefHeight="122.0" prefWidth="326.0" vgap="7.0">
                     <columnConstraints>
@@ -108,15 +123,15 @@
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="69.0" text="Gender" textAlignment="CENTER" GridPane.rowIndex="2" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="100.0" text="Age" GridPane.rowIndex="3" />
                         <TextField fx:id="heightInput" prefHeight="50.0" prefWidth="166.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <Label alignment="CENTER" prefHeight="122.0" prefWidth="158.0" text="height" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER" prefHeight="122.0" prefWidth="158.0" text="Height" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                         <TextField fx:id="neckInput" prefHeight="46.0" prefWidth="158.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                         <TextField fx:id="waistInput" prefHeight="43.0" prefWidth="153.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                        <Label alignment="CENTER" prefHeight="184.0" prefWidth="240.0" text="neck" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <Label alignment="CENTER" prefHeight="230.0" prefWidth="270.0" text="waist" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label alignment="CENTER" prefHeight="184.0" prefWidth="240.0" text="Neck" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label alignment="CENTER" prefHeight="230.0" prefWidth="270.0" text="Waist" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                         <TextField fx:id="weightInput" prefHeight="40.0" prefWidth="148.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label alignment="CENTER" prefHeight="68.0" prefWidth="107.0" text="Weight" GridPane.rowIndex="4" />
                         <TextField fx:id="hipInput" prefHeight="55.0" prefWidth="164.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                        <Label alignment="CENTER" prefHeight="170.0" prefWidth="220.0" text="hip" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Label alignment="CENTER" prefHeight="170.0" prefWidth="220.0" text="Hip" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                </children>
@@ -131,8 +146,8 @@
             <AnchorPane prefHeight="166.0" prefWidth="383.0" style="-fx-border-color: BLUE;">
                <children>
                   <Label layoutX="79.0" layoutY="16.0" text="Calculations" />
-                  <RadioButton fx:id="bmiRadio" layoutX="203.0" layoutY="49.0" mnemonicParsing="false" text="BMI" />
-                  <RadioButton fx:id="bfRadio" layoutX="203.0" layoutY="25.0" mnemonicParsing="false" text="Body Fat %" />
+                  <RadioButton fx:id="bmiRadio" layoutX="203.0" layoutY="49.0" mnemonicParsing="false" onAction="#BmiToggled" text="BMI" />
+                  <RadioButton fx:id="bfRadio" layoutX="203.0" layoutY="25.0" mnemonicParsing="false" onAction="#bodyFatToggled" text="Body Fat %" />
                   <Button layoutX="47.0" layoutY="99.0" mnemonicParsing="false" onMouseClicked="#generateBfBmi" text="Generate" />
                   <TextArea fx:id="bmiBfPrint" layoutX="138.0" layoutY="92.0" prefHeight="39.0" prefWidth="206.0" />
                </children>
