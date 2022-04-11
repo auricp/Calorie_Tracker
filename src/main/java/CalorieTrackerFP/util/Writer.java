@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class Writer {
     public static void saveFile(Person ourUser, File filename){
+
         try{
             String filenameWrite = filename.getAbsolutePath();
             // Initializing a bufferwriter to write to each of the lines individually)

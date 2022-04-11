@@ -17,6 +17,7 @@ public class Reader {
             String compile = fileReader.nextLine();
             infoLines.add(compile);
         }
+
         // The following lines are removing the identifying words in front of the actual data and then setting that data to the user
         String[] goalList = infoLines.get(0).split(":");
         String goal = goalList[1];

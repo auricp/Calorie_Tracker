@@ -5,6 +5,8 @@ import CalorieTrackerFP.data.Food;
 import CalorieTrackerFP.data.TableEntry;
 import CalorieTrackerFP.data.UserMapData;
 import CalorieTrackerFP.person.Person;
+import CalorieTrackerFP.util.Reader;
+import CalorieTrackerFP.util.Writer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,8 +15,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
-import java.lang.reflect.Array;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,6 +30,18 @@ public class MainController {
 
     @FXML
     private DatePicker datePicker;
+
+    @FXML
+    private TextField lbsToKg;
+
+    @FXML
+    private TextField lbsToKgOutput;
+
+    @FXML
+    private TextField InToCm;
+
+    @FXML
+    private TextField InToCmOutput;
 
     @FXML
     private TextField ageInput;
@@ -174,7 +191,7 @@ public class MainController {
             //set the programs foodMap and exerciseMap to the ones from the hashmap
             foodMap = (Food) foodMapFromHashmap;
             exerciseMap = (Exercise) exerciseMapFromHashmap;
-        //the inputted date does not have previous data associated with it
+            //the inputted date does not have previous data associated with it
         } else {
             foodMap = this.foodMap;
             exerciseMap = this.exerciseMap;
@@ -318,6 +335,16 @@ public class MainController {
     }
 
     @FXML
+    void bodyFatToggled(ActionEvent event) {
+        bmiRadio.setSelected(false);
+    }
+
+    @FXML
+    void BmiToggled(ActionEvent event) {
+        bfRadio.setSelected(false);
+    }
+
+    @FXML
     void addItemToMapButtonClicked(ActionEvent event) {
         boolean addFoodButtonPressed = addFoodButton.isSelected();
         boolean addExerciseButtonPressed = addExerciseButton.isSelected();
@@ -425,4 +452,69 @@ public class MainController {
 
     }
 
+    @FXML
+    void convertMeasurement(ActionEvent event) {
+        if(!lbsToKg.getText().equals("")){
+            try{
+                double lbsToKgConversion = 2.205;
+                double weightLbs = Double.parseDouble(lbsToKg.getText());
+                double weightKg = weightLbs/lbsToKgConversion;
+                lbsToKgOutput.setText(String.format("%.2f",weightKg) + "kg");
+            }catch(Exception e){
+                errorMsg.setText("Not a valid input for weight");
+            }
+        }else if(!InToCm.getText().equals("")){
+            try{
+                double inchToCmConversion = 2.54;
+                double heightInch = Double.parseDouble(InToCm.getText());
+                double heightCm = heightInch * inchToCmConversion;
+                InToCmOutput.setText(String.format("%.2f",heightCm) + "cm");
+            }catch(Exception e){
+                errorMsg.setText("Not a valid input for height");
+            }
+        }
+        if(!lbsToKg.getText().equals("") && !InToCm.getText().equals("")){
+            try{
+                double lbsToKgConversion = 2.205;
+                double weightLbs = Double.parseDouble(lbsToKg.getText());
+                double weightKg = weightLbs/lbsToKgConversion;
+                lbsToKgOutput.setText(String.format("%.2f",weightKg) + "kg");
+                double inchToCmConversion = 2.54;
+                double heightInch = Double.parseDouble(InToCm.getText());
+                double heightCm = heightInch * inchToCmConversion;
+                InToCmOutput.setText(String.format("%.2f",heightCm) + "cm");
+            }catch(Exception e){
+                errorMsg.setText("Invalid input for weight or height");
+            }
+        }
+
+    }
+
+    @FXML
+    void saveFile(ActionEvent event) {
+        try{
+            FileChooser file = new FileChooser();
+            file.setInitialDirectory(new File("."));
+            file.setInitialFileName("savedInfo.txt");
+            file.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+            File chosen = file.showSaveDialog(new Stage());
+            Writer.saveFile(User, chosen);
+            successMsg.setText("File saved!");
+        }catch(Exception e){
+            errorMsg.setText("file error");
+        }
+    }
+
+
+    @FXML
+    void loadFile(ActionEvent event) {
+        try{
+            FileChooser file = new FileChooser();
+            File chosen = file.showOpenDialog((Window)null);
+            Reader.readFile(User,chosen);
+            successMsg.setText("File loaded!");
+        }catch(Exception e){
+            errorMsg.setText("File couldn't load!");
+        }
+    }
 }

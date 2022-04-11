@@ -67,7 +67,8 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <DatePicker layoutX="20.0" layoutY="150.0" />
+                  <DatePicker fx:id="datePicker" layoutX="216.0" layoutY="21.0" onAction="#datePickerPicked" />
+                  <Label layoutX="118.0" layoutY="25.0" text="Current Date:" />
                </children></AnchorPane>
             <BarChart prefHeight="330.0" prefWidth="502.0" style="-fx-border-color: GREEN;">
               <xAxis>
