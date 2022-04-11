@@ -22,6 +22,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CalorieTrackerFP.app.MainController">
    <top>
@@ -46,12 +47,17 @@
       </MenuBar>
    </top>
    <bottom>
-      <HBox prefHeight="21.0" prefWidth="600.0" style="-fx-border-color: RED;" BorderPane.alignment="CENTER">
+      <HBox prefHeight="26.0" prefWidth="1200.0" style="-fx-border-color: RED;" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Errors:" />
-            <Label fx:id="errorMsg" prefHeight="17.0" prefWidth="225.0" textFill="#ee0a0a" />
-            <Label text="Success:" />
-            <Label fx:id="successMsg" prefHeight="17.0" prefWidth="195.0" textFill="#1edd27" />
+            <Label fx:id="errorMsg" prefHeight="33.0" prefWidth="649.0" textFill="#ee0a0a">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label prefHeight="33.0" prefWidth="14.0" textFill="#1edd27" />
+            <Label fx:id="successMsg" alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="536.0" textAlignment="RIGHT" textFill="#1edd27">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
          </children></HBox>
    </bottom>
    <center>
@@ -140,26 +146,26 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: YELLOW;">
                <children>
                   <Label layoutX="120.0" layoutY="6.0" text="Add food or exercise" />
-                  <RadioButton layoutX="66.0" layoutY="41.0" mnemonicParsing="false" text="RadioButton" />
-                  <RadioButton layoutX="201.0" layoutY="41.0" mnemonicParsing="false" text="RadioButton" />
-                  <Label layoutX="103.0" layoutY="77.0" prefHeight="17.0" prefWidth="58.0" text="Label" />
-                  <TextField layoutX="156.0" layoutY="73.0" />
-                  <Label layoutX="98.0" layoutY="109.0" prefHeight="17.0" prefWidth="58.0" text="Label" />
-                  <TextField layoutX="156.0" layoutY="105.0" />
-                  <Button layoutX="157.0" layoutY="151.0" mnemonicParsing="false" text="Button" />
+                  <RadioButton fx:id="addFoodButton" layoutX="66.0" layoutY="41.0" mnemonicParsing="false" onAction="#addFoodButtonToggled" text="Add Food" />
+                  <RadioButton fx:id="addExerciseButton" layoutX="201.0" layoutY="41.0" mnemonicParsing="false" onAction="#addExerciseButtonToggled" text="Add Exercise" />
+                  <Label fx:id="itemNameLabel" alignment="CENTER_RIGHT" layoutX="92.0" layoutY="77.0" prefHeight="17.0" prefWidth="48.0" text="Item:" />
+                  <TextField fx:id="mapItemInput" layoutX="156.0" layoutY="73.0" prefHeight="25.0" prefWidth="77.0" />
+                  <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="109.0" prefHeight="17.0" prefWidth="50.0" text="Calories:" />
+                  <TextField fx:id="mapInputCalories" layoutX="156.0" layoutY="105.0" prefHeight="25.0" prefWidth="76.0" />
+                  <Button fx:id="addItemToMapButton" alignment="CENTER" layoutX="127.0" layoutY="152.0" mnemonicParsing="false" onAction="#addItemToMapButtonClicked" prefHeight="25.0" prefWidth="89.0" text="Add Item" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="62.0" prefWidth="344.0">
                <children>
                   <Label layoutX="129.0" layoutY="14.0" text="View Table:" />
-                  <RadioButton layoutX="75.0" layoutY="31.0" mnemonicParsing="false" text="Food" />
-                  <RadioButton layoutX="201.0" layoutY="31.0" mnemonicParsing="false" text="Exercises" />
+                  <RadioButton fx:id="viewFoodButton" layoutX="75.0" layoutY="31.0" mnemonicParsing="false" onAction="#viewFoodButtonPressed" text="Food" />
+                  <RadioButton fx:id="viewExercisesButton" layoutX="201.0" layoutY="31.0" mnemonicParsing="false" onAction="#viewExercisesButtonPressed" text="Exercises" />
                </children>
             </AnchorPane>
-            <TableView prefHeight="494.0" prefWidth="343.0">
+            <TableView fx:id="mapTable" prefHeight="494.0" prefWidth="343.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="itemColumn" prefWidth="75.0" text="Item" />
+                <TableColumn fx:id="caloriesColumn" prefWidth="75.0" text="Calories" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

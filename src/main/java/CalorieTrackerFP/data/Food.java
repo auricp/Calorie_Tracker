@@ -1,7 +1,8 @@
 package CalorieTrackerFP.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.List;
 
 public class Food extends UserMapData {
 
@@ -22,6 +23,19 @@ public class Food extends UserMapData {
         return clonedMap;
     }
 
+    public List[] getMapData() {
+        List<String> foodNames = new ArrayList<String>();
+        List<String> calorieAmounts = new ArrayList<String>();
+
+        for (String key : foodMap.keySet()) {
+            foodNames.add(key);
+            calorieAmounts.add(String.valueOf(foodMap.get(key)));
+        }
+        List[] output = {foodNames, calorieAmounts};
+
+        return output;
+    }
+
     /**
      * This function is an override for the setMapData method in the UserData class and with its parameter updates the foodMap
      * @param calories is calories inputted
@@ -33,7 +47,7 @@ public class Food extends UserMapData {
     }
 
     /**
-     * This function takes all of the information in the food hashmap and turns it into a string so that it is readable
+     * This function takes all the information in the food hashmap and turns it into a string so that it is readable
      * if the user asks for the corresponding menu option
      * @return the string output for the food map
      */

@@ -4,4 +4,5 @@ module CPSC233Demo3 {
 
     opens CalorieTrackerFP.app to javafx.fxml;
     exports CalorieTrackerFP.app;
+    exports CalorieTrackerFP.data;
 }

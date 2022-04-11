@@ -2,16 +2,18 @@ package CalorieTrackerFP.app;
 
 import CalorieTrackerFP.data.Exercise;
 import CalorieTrackerFP.data.Food;
+import CalorieTrackerFP.data.TableEntry;
 import CalorieTrackerFP.person.Person;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.List;
 
 public class MainController {
     @FXML
@@ -56,8 +58,10 @@ public class MainController {
     @FXML
     private TextArea bmiBfPrint;
 
-    @FXML
-    private TextArea calculationTextArea;
+//    @FXML
+//    private TextArea calculationTextArea;
+
+
 
 
 
@@ -79,6 +83,21 @@ public class MainController {
     @FXML
     private Button addItemToMapButton;
 
+    @FXML
+    private RadioButton viewExercisesButton;
+
+    @FXML
+    private RadioButton viewFoodButton;
+
+    @FXML
+    private TableView<TableEntry> mapTable;
+
+    @FXML
+    private TableColumn<?, ?> itemColumn;
+
+    @FXML
+    private TableColumn<?, ?> caloriesColumn;
+
     Person User = new Person();
 
     Food foodMap = new Food();
@@ -92,15 +111,19 @@ public class MainController {
     public void initialize(){
         goalChoose.getItems().addAll(goals);
         genderChoose.getItems().addAll(genders);
+
+
     }
 
     void updateALabel(String message, String whichLabel, Color inputColour) {
         if (whichLabel.equals("error")) {
+            successMsg.setText("");
             errorMsg.setText(message);
             errorMsg.setTextFill(inputColour);
         } else if (whichLabel.equals("success")) {
+            errorMsg.setText("");
             successMsg.setText(message);
-            errorMsg.setTextFill(inputColour);
+            successMsg.setTextFill(inputColour);
         } else {
             //wrong input for label on our part
         }
@@ -179,14 +202,6 @@ public class MainController {
         viewUserInfoTextArea.setText("AYO");
     }
 
-
-    @FXML
-    void addExerciseButtonToggled(ActionEvent event) {
-        addFoodButton.setSelected(false);
-        itemNameLabel.setText("Exercise:");
-        addItemToMapButton.setText("Add exercise");
-    }
-
     @FXML
     void generateBfBmi(MouseEvent event) {
         try{
@@ -227,6 +242,13 @@ public class MainController {
     }
 
     @FXML
+    void addExerciseButtonToggled(ActionEvent event) {
+        addFoodButton.setSelected(false);
+        itemNameLabel.setText("Exercise:");
+        addItemToMapButton.setText("Add exercise");
+    }
+
+    @FXML
     void addItemToMapButtonClicked(ActionEvent event) {
         boolean addFoodButtonPressed = addFoodButton.isSelected();
         boolean addExerciseButtonPressed = addExerciseButton.isSelected();
@@ -255,14 +277,69 @@ public class MainController {
                         }
                     }
                 } catch (Exception e) {
-                    updateALabel("Error, please enter in strings for item inputs and integers for calories", "error" ,Color.RED);
+                    updateALabel("Please enter in strings for item inputs and integers for calories", "error" ,Color.RED);
                 }
             } else {
                 updateALabel("Please input both an item and its associated calories", "error", Color.RED);
             }
         } else {
-            updateALabel("Please select a data type to enter", "error", Color.RED);
+            updateALabel("Please select either a food or exercise", "error", Color.RED);
         }
+    }
+
+    @FXML
+    void viewExercisesButtonPressed(ActionEvent event) {
+        viewFoodButton.setSelected(false);
+        List[] exerciseMapData = exerciseMap.getMapData();
+        List<String> exerciseNames = exerciseMapData[0];
+        List<String> calorieAmounts = exerciseMapData[1];
+
+        ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
+
+        for (int i = 0; i < exerciseNames.size(); i++) {
+            System.out.println(exerciseNames.get(i));
+            System.out.println(calorieAmounts.get(i));
+            tableEntries.add(new TableEntry(exerciseNames.get(i), calorieAmounts.get(i)));
+        }
+        mapTable.getItems().clear();
+        mapTable.getColumns().clear();
+
+        TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Exercises");
+        itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<TableEntry, String> calorieColumn = new TableColumn<>("Calories");
+        calorieColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+
+        mapTable.setItems(tableEntries);
+        mapTable.getColumns().addAll(itemColumn, calorieColumn);
+    }
+
+    @FXML
+    void viewFoodButtonPressed(ActionEvent event) {
+        viewExercisesButton.setSelected(false);
+        List[] foodMapData = foodMap.getMapData();
+        List<String> foodNames = foodMapData[0];
+        List<String> calorieAmounts = foodMapData[1];
+
+        ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
+
+        for (int i = 0; i < foodNames.size(); i++) {
+            System.out.println(foodNames.get(i));
+            System.out.println(calorieAmounts.get(i));
+            tableEntries.add(new TableEntry(foodNames.get(i), calorieAmounts.get(i)));
+        }
+        mapTable.getItems().clear();
+        mapTable.getColumns().clear();
+
+        TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Food");
+        itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<TableEntry, String> calorieColumn = new TableColumn<>("Calories");
+        calorieColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+
+        mapTable.setItems(tableEntries);
+        mapTable.getColumns().addAll(itemColumn, calorieColumn);
+
     }
 
 
