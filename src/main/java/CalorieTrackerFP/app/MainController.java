@@ -295,21 +295,21 @@ public class MainController {
     @FXML
     void viewExercisesButtonPressed(ActionEvent event) {
         //if the user deselects both buttons
-        if ((viewFoodButton.isSelected() == false) && (viewExercisesButton.isSelected() == false)) {
+        if ((!viewFoodButton.isSelected()) && (!viewExercisesButton.isSelected())) {
             mapTable.getItems().clear();
             mapTable.getColumns().clear();
         } else {
             viewFoodButton.setSelected(false);
             List[] exerciseMapData = exerciseMap.getMapData();
-            List<String> exerciseNames = exerciseMapData[0];
-            List<String> calorieAmounts = exerciseMapData[1];
+            List exerciseNames = exerciseMapData[0];
+            List calorieAmounts = exerciseMapData[1];
 
             ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
 
             for (int i = 0; i < exerciseNames.size(); i++) {
                 System.out.println(exerciseNames.get(i));
                 System.out.println(calorieAmounts.get(i));
-                tableEntries.add(new TableEntry(exerciseNames.get(i), calorieAmounts.get(i)));
+                tableEntries.add(new TableEntry((String) exerciseNames.get(i), (String) calorieAmounts.get(i)));
             }
             mapTable.getItems().clear();
             mapTable.getColumns().clear();
@@ -328,21 +328,21 @@ public class MainController {
     @FXML
     void viewFoodButtonPressed(ActionEvent event) {
         //if the user deselects both buttons
-        if ((viewExercisesButton.isSelected() == false) && (viewFoodButton.isSelected() == false)) {
+        if ((!viewExercisesButton.isSelected()) && (!viewFoodButton.isSelected())) {
             mapTable.getItems().clear();
             mapTable.getColumns().clear();
         } else {
             viewExercisesButton.setSelected(false);
             List[] foodMapData = foodMap.getMapData();
-            List<String> foodNames = foodMapData[0];
-            List<String> calorieAmounts = foodMapData[1];
+            List foodNames = foodMapData[0];
+            List calorieAmounts = foodMapData[1];
 
             ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
 
             for (int i = 0; i < foodNames.size(); i++) {
                 System.out.println(foodNames.get(i));
                 System.out.println(calorieAmounts.get(i));
-                tableEntries.add(new TableEntry(foodNames.get(i), calorieAmounts.get(i)));
+                tableEntries.add(new TableEntry((String) foodNames.get(i), (String) calorieAmounts.get(i)));
             }
             mapTable.getItems().clear();
             mapTable.getColumns().clear();

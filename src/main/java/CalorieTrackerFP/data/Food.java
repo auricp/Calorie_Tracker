@@ -43,7 +43,13 @@ public class Food extends UserMapData {
      */
     @Override
     public void addToMap(String food, int calories) {
-        this.foodMap.put(food, calories);
+        //adds together the calories of duplicate items
+        if (this.foodMap.containsKey(food)) {
+            int newCalories = this.foodMap.get(food) + calories;
+            this.foodMap.put(food, newCalories);
+        } else {
+            this.foodMap.put(food, calories);
+        }
     }
 
     /**

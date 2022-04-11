@@ -34,7 +34,13 @@ public class Exercise extends UserMapData {
      */
     @Override
     public void addToMap(String exercise, int calories) {
-        this.exerciseMap.put(exercise, calories);
+        //adds together the calories of duplicate items
+        if (this.exerciseMap.containsKey(exercise)) {
+            int newCalories = this.exerciseMap.get(exercise) + calories;
+            this.exerciseMap.put(exercise, newCalories);
+        } else {
+            this.exerciseMap.put(exercise, calories);
+        }
     }
 
     /**
