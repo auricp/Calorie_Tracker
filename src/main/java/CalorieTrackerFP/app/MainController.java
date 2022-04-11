@@ -282,7 +282,8 @@ public class MainController {
 
     @FXML
     void viewUserInfoButton(ActionEvent event) {
-        viewUserInfoTextArea.setText("AYO");
+        String print = "Goal: " + User.getGoal() + "\nGender: " + User.getGender() + "\nAge: " + User.getAge() + "\nWeight: " + User.getWeight() + "kg\nHeight: " + User.getHeight() + "cm\nNeck: " + User.getNeckMeasurement() + "cm\nWaist: " + User.getWaistMeasurement() + "cm\nHip: " + User.getHipMeasurement() + "cm";
+        viewUserInfoTextArea.setText(print);
     }
 
     @FXML
