@@ -125,10 +125,10 @@
             <AnchorPane prefHeight="166.0" prefWidth="383.0" style="-fx-border-color: BLUE;">
                <children>
                   <Label layoutX="79.0" layoutY="16.0" text="Calculations" />
-                  <RadioButton layoutX="203.0" layoutY="49.0" mnemonicParsing="false" text="BMI" />
-                  <RadioButton layoutX="203.0" layoutY="25.0" mnemonicParsing="false" text="Body Fat %" />
+                  <RadioButton fx:id="bmiRadio" layoutX="203.0" layoutY="49.0" mnemonicParsing="false" text="BMI" />
+                  <RadioButton fx:id="bfRadio" layoutX="203.0" layoutY="25.0" mnemonicParsing="false" text="Body Fat %" />
                   <Button layoutX="47.0" layoutY="99.0" mnemonicParsing="false" onMouseClicked="#generateBfBmi" text="Generate" />
-                  <TextArea layoutX="138.0" layoutY="92.0" prefHeight="39.0" prefWidth="206.0" />
+                  <TextArea fx:id="bmiBfPrint" layoutX="138.0" layoutY="92.0" prefHeight="39.0" prefWidth="206.0" />
                </children>
             </AnchorPane>
          </children>

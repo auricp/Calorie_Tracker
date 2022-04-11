@@ -108,4 +108,15 @@ public class Person {
         double bmi = this.getWeight() / heightMSquared;
         return bmi;
     }
+
+    public double getBodyFat(){
+        if(gender.equals("woman")){
+            double bodyFatPercentageForWoman = 495 / ((1.29579 - (0.35004 * Math.log10(waistMeasurement + hipMeasurement - neckMeasurement))) + (0.22100 * Math.log10(height))) - 450;
+            return bodyFatPercentageForWoman;
+        }else if(gender.equals("man")){
+            double bodyFatPercentageForMan = 495 / ((1.0324 - (0.19077 * Math.log10(waistMeasurement - neckMeasurement))) + (0.15456 * Math.log10(height))) - 450;
+            return bodyFatPercentageForMan;
+        }
+        return 0;
+    }
 }

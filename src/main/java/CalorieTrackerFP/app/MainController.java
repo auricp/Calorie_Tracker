@@ -24,6 +24,9 @@ public class MainController {
     private Label errorMsg;
 
     @FXML
+    private RadioButton bfRadio;
+
+    @FXML
     private Label successMsg;
 
     @FXML
@@ -188,12 +191,14 @@ public class MainController {
     void generateBfBmi(MouseEvent event) {
         try{
             if(bmiRadio.isSelected()){
-                System.out.print("\n Radio works");
-                bmiBfPrint.setText(String.valueOf(User.getBmi()));
+                bmiBfPrint.setText("Bmi is " + String.format("%.2f", User.getBmi()));
+                successMsg.setText("Bmi successfully calculated");
+            }else if(bfRadio.isSelected()){
+                bmiBfPrint.setText("Body fat % is " + String.format("%.2f", User.getBodyFat()));
+                successMsg.setText("Body fat % calculated");
             }
         }catch (Exception e){
-            System.out.print(e);
-            errorMsg.setText("Did not select calculation");
+            errorMsg.setText("Bmi could not be calculated");
         }
     }
 
