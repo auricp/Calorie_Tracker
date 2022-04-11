@@ -238,7 +238,8 @@ public class MainController {
         addExerciseButton.setSelected(false);
         itemNameLabel.setText("Food:");
         addItemToMapButton.setText("Add food");
-
+//        mapItemInput.setText("");
+//        mapInputCalories.setText("");
     }
 
     @FXML
@@ -246,6 +247,8 @@ public class MainController {
         addFoodButton.setSelected(false);
         itemNameLabel.setText("Exercise:");
         addItemToMapButton.setText("Add exercise");
+//        mapItemInput.setText("");
+//        mapInputCalories.setText("");
     }
 
     @FXML
@@ -262,6 +265,8 @@ public class MainController {
                         boolean allLetters = food.chars().allMatch(Character::isLetter);
                         if (allLetters) {
                             foodMap.addToMap(food, calories);
+                            mapItemInput.setText("");
+                            mapInputCalories.setText("");
                             updateALabel("Successfully inputted food!", "success", Color.GREEN);
                         } else {
                             throw new Exception();
@@ -289,59 +294,69 @@ public class MainController {
 
     @FXML
     void viewExercisesButtonPressed(ActionEvent event) {
-        viewFoodButton.setSelected(false);
-        List[] exerciseMapData = exerciseMap.getMapData();
-        List<String> exerciseNames = exerciseMapData[0];
-        List<String> calorieAmounts = exerciseMapData[1];
+        //if the user deselects both buttons
+        if ((viewFoodButton.isSelected() == false) && (viewExercisesButton.isSelected() == false)) {
+            mapTable.getItems().clear();
+            mapTable.getColumns().clear();
+        } else {
+            viewFoodButton.setSelected(false);
+            List[] exerciseMapData = exerciseMap.getMapData();
+            List<String> exerciseNames = exerciseMapData[0];
+            List<String> calorieAmounts = exerciseMapData[1];
 
-        ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
+            ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
 
-        for (int i = 0; i < exerciseNames.size(); i++) {
-            System.out.println(exerciseNames.get(i));
-            System.out.println(calorieAmounts.get(i));
-            tableEntries.add(new TableEntry(exerciseNames.get(i), calorieAmounts.get(i)));
+            for (int i = 0; i < exerciseNames.size(); i++) {
+                System.out.println(exerciseNames.get(i));
+                System.out.println(calorieAmounts.get(i));
+                tableEntries.add(new TableEntry(exerciseNames.get(i), calorieAmounts.get(i)));
+            }
+            mapTable.getItems().clear();
+            mapTable.getColumns().clear();
+
+            TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Exercises");
+            itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+            TableColumn<TableEntry, String> calorieColumn = new TableColumn<>("Calories");
+            calorieColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+
+            mapTable.setItems(tableEntries);
+            mapTable.getColumns().addAll(itemColumn, calorieColumn);
         }
-        mapTable.getItems().clear();
-        mapTable.getColumns().clear();
-
-        TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Exercises");
-        itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        TableColumn<TableEntry, String> calorieColumn = new TableColumn<>("Calories");
-        calorieColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
-
-        mapTable.setItems(tableEntries);
-        mapTable.getColumns().addAll(itemColumn, calorieColumn);
     }
 
     @FXML
     void viewFoodButtonPressed(ActionEvent event) {
-        viewExercisesButton.setSelected(false);
-        List[] foodMapData = foodMap.getMapData();
-        List<String> foodNames = foodMapData[0];
-        List<String> calorieAmounts = foodMapData[1];
+        //if the user deselects both buttons
+        if ((viewExercisesButton.isSelected() == false) && (viewFoodButton.isSelected() == false)) {
+            mapTable.getItems().clear();
+            mapTable.getColumns().clear();
+        } else {
+            viewExercisesButton.setSelected(false);
+            List[] foodMapData = foodMap.getMapData();
+            List<String> foodNames = foodMapData[0];
+            List<String> calorieAmounts = foodMapData[1];
 
-        ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
+            ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
 
-        for (int i = 0; i < foodNames.size(); i++) {
-            System.out.println(foodNames.get(i));
-            System.out.println(calorieAmounts.get(i));
-            tableEntries.add(new TableEntry(foodNames.get(i), calorieAmounts.get(i)));
+            for (int i = 0; i < foodNames.size(); i++) {
+                System.out.println(foodNames.get(i));
+                System.out.println(calorieAmounts.get(i));
+                tableEntries.add(new TableEntry(foodNames.get(i), calorieAmounts.get(i)));
+            }
+            mapTable.getItems().clear();
+            mapTable.getColumns().clear();
+
+            TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Food");
+            itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+            TableColumn<TableEntry, String> calorieColumn = new TableColumn<>("Calories");
+            calorieColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+
+            mapTable.setItems(tableEntries);
+            mapTable.getColumns().addAll(itemColumn, calorieColumn);
         }
-        mapTable.getItems().clear();
-        mapTable.getColumns().clear();
-
-        TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Food");
-        itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        TableColumn<TableEntry, String> calorieColumn = new TableColumn<>("Calories");
-        calorieColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
-
-        mapTable.setItems(tableEntries);
-        mapTable.getColumns().addAll(itemColumn, calorieColumn);
 
     }
-
-
 
 }
