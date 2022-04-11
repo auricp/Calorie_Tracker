@@ -14,7 +14,6 @@ public class Person {
         //method to ask for changing goal
         this.goal = goal;
     }
-
     public String getGoal(){
         return goal;
     }
