@@ -3,9 +3,8 @@ package CalorieTrackerFP.app;
 import CalorieTrackerFP.data.Exercise;
 import CalorieTrackerFP.data.Food;
 import CalorieTrackerFP.data.TableEntry;
+import CalorieTrackerFP.data.UserMapData;
 import CalorieTrackerFP.person.Person;
-import CalorieTrackerFP.util.Reader;
-import CalorieTrackerFP.util.Writer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,28 +13,24 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
-import java.io.File;
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainController {
+
+    @FXML
+    private DatePicker datePicker;
+
     @FXML
     private TextField ageInput;
 
     @FXML
-    private TextField lbsToKgOutput;
-
-    @FXML
     private TextField heightInput;
-
-    @FXML
-    private TextField InToCm;
-
-    @FXML
-    private TextField lbsToKg;
 
     @FXML
     private Label errorMsg;
@@ -45,9 +40,6 @@ public class MainController {
 
     @FXML
     private Label successMsg;
-
-    @FXML
-    private TextField InToCmOutput;
 
     @FXML
     private TextField hipInput;
@@ -116,21 +108,77 @@ public class MainController {
     @FXML
     private TableColumn<?, ?> caloriesColumn;
 
-    Person User = new Person();
-
-    Food foodMap = new Food();
-
-    Exercise exerciseMap = new Exercise();
-
     private String[] goals = new String[]{"muscle", "loss", "maintenance"};
     private String[] genders = new String[]{"man", "woman"};
 
+    Person User;
+    Food foodMap;
+    Exercise exerciseMap;
+
+    LocalDate now = LocalDate.from(LocalDateTime.now());
+    LocalDate previousDate = now;
+
+    HashMap<LocalDate, ArrayList<UserMapData>> dateListHashMap = new HashMap<>();
+
     @FXML
     public void initialize(){
+        User = new Person();
+        foodMap = new Food();
+        exerciseMap = new Exercise();
+
         goalChoose.getItems().addAll(goals);
         genderChoose.getItems().addAll(genders);
 
+        System.out.println("current date: " + now);
+    }
 
+    @FXML
+    void datePickerPicked(ActionEvent event) {
+
+        //save the programs current foodMap and exerciseMap to the hashmap of dates, with the old date as the identifier
+
+        //System.out.println(datePicker.getValue());
+        LocalDate userDate = datePicker.getValue();
+
+        //System.out.println("adding to date " + previousDate);
+
+        //put the current foodMap and exerciseMap into a list to be stored in the hashmap
+        ArrayList<UserMapData> maps = new ArrayList<>() {{
+            add(foodMap);
+            add(exerciseMap);
+        }};
+
+        //store the two maps with their respective day inside the hashmap
+        dateListHashMap.put(previousDate, maps);
+
+        //old maps are stored into the dateHashMap, so make some blank objects
+        foodMap = new Food();
+        exerciseMap = new Exercise();
+
+        for (LocalDate hashmapDate : dateListHashMap.keySet()) {
+            System.out.println("Date: " + hashmapDate + " Maps: " + dateListHashMap.get(hashmapDate));
+        }
+        System.out.println("\n");
+
+        previousDate = userDate;
+
+        //getting the new foodMap and exerciseMap from the hashmap, because we switched to a different day
+
+        //if the date is already in the hashmap (there is already inputted data)
+        if (dateListHashMap.containsKey(userDate)) {
+            //get the list of the stored maps from the hashmap using the date
+            ArrayList<UserMapData> listOfMaps = dateListHashMap.get(userDate);
+            //get each individual map from the list of maps
+            UserMapData foodMapFromHashmap = listOfMaps.get(0);
+            UserMapData exerciseMapFromHashmap = listOfMaps.get(1);
+            //set the programs foodMap and exerciseMap to the ones from the hashmap
+            foodMap = (Food) foodMapFromHashmap;
+            exerciseMap = (Exercise) exerciseMapFromHashmap;
+        //the inputted date does not have previous data associated with it
+        } else {
+            foodMap = this.foodMap;
+            exerciseMap = this.exerciseMap;
+        }
     }
 
     void updateALabel(String message, String whichLabel, Color inputColour) {
@@ -212,12 +260,12 @@ public class MainController {
             System.out.print("Error");
         }
         successMsg.setText("User info updated!");
+        System.out.print("\nBmi is " + User.getBmi() );
     }
 
     @FXML
     void viewUserInfoButton(ActionEvent event) {
-        String print = "Goal: " + User.getGoal() + "\nGender: " + User.getGender() + "\nAge: " + User.getAge() + "\nWeight: " + User.getWeight() + "kg\nHeight: " + User.getHeight() + "cm\nNeck: " + User.getNeckMeasurement() + "cm\nWaist: " + User.getWaistMeasurement() + "cm\nHip: " + User.getHipMeasurement() + "cm";
-        viewUserInfoTextArea.setText(print);
+        viewUserInfoTextArea.setText("AYO");
     }
 
     @FXML
@@ -267,16 +315,6 @@ public class MainController {
         addItemToMapButton.setText("Add exercise");
 //        mapItemInput.setText("");
 //        mapInputCalories.setText("");
-    }
-
-    @FXML
-    void bodyFatToggled(ActionEvent event) {
-        bmiRadio.setSelected(false);
-    }
-
-    @FXML
-    void BmiToggled(ActionEvent event) {
-        bfRadio.setSelected(false);
     }
 
     @FXML
@@ -385,72 +423,6 @@ public class MainController {
             mapTable.getColumns().addAll(itemColumn, calorieColumn);
         }
 
-    }
-
-
-    @FXML
-    void convertMeasurement(ActionEvent event) {
-        if(!lbsToKg.getText().equals("")){
-            try{
-                double lbsToKgConversion = 2.205;
-                double weightLbs = Double.parseDouble(lbsToKg.getText());
-                double weightKg = weightLbs/lbsToKgConversion;
-                lbsToKgOutput.setText(String.format("%.2f",weightKg) + "kg");
-            }catch(Exception e){
-                errorMsg.setText("Not a valid input for weight");
-            }
-        }else if(!InToCm.getText().equals("")){
-            try{
-                double inchToCmConversion = 2.54;
-                double heightInch = Double.parseDouble(InToCm.getText());
-                double heightCm = heightInch * inchToCmConversion;
-                InToCmOutput.setText(String.format("%.2f",heightCm) + "cm");
-            }catch(Exception e){
-                errorMsg.setText("Not a valid input for height");
-            }
-        }
-        if(!lbsToKg.getText().equals("") && !InToCm.getText().equals("")){
-            try{
-                double lbsToKgConversion = 2.205;
-                double weightLbs = Double.parseDouble(lbsToKg.getText());
-                double weightKg = weightLbs/lbsToKgConversion;
-                lbsToKgOutput.setText(String.format("%.2f",weightKg) + "kg");
-                double inchToCmConversion = 2.54;
-                double heightInch = Double.parseDouble(InToCm.getText());
-                double heightCm = heightInch * inchToCmConversion;
-                InToCmOutput.setText(String.format("%.2f",heightCm) + "cm");
-            }catch(Exception e){
-                errorMsg.setText("Invalid input for weight or height");
-            }
-        }
-
-    }
-
-    @FXML
-    void saveFile(ActionEvent event) {
-        try{
-            FileChooser file = new FileChooser();
-            file.setInitialDirectory(new File("."));
-            file.setInitialFileName("savedInfo.txt");
-            file.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
-            File chosen = file.showSaveDialog(new Stage());
-            Writer.saveFile(User, chosen);
-            successMsg.setText("File saved!");
-        }catch(Exception e){
-            errorMsg.setText("file error");
-        }
-    }
-
-    @FXML
-    void loadFile(ActionEvent event) {
-        try{
-            FileChooser file = new FileChooser();
-            File chosen = file.showOpenDialog((Window)null);
-            Reader.readFile(User,chosen);
-            successMsg.setText("File loaded!");
-        }catch(Exception e){
-            errorMsg.setText("File couldn't load!");
-        }
     }
 
 }
