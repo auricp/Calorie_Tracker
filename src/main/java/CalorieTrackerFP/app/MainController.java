@@ -1,5 +1,12 @@
 package CalorieTrackerFP.app;
 
+/*
+Colton Gowans, Auric Poku
+April 12th
+Tut 07
+
+ */
+
 import CalorieTrackerFP.calories.Calories;
 import CalorieTrackerFP.data.Exercise;
 import CalorieTrackerFP.data.Food;

@@ -62,21 +62,20 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: LIGHTBLUE;">
                <children>
-                  <DatePicker fx:id="datePicker" layoutX="220.0" layoutY="101.0" onAction="#datePickerPicked" prefHeight="26.0" prefWidth="116.0" />
-                  <Label layoutX="112.0" layoutY="105.0" text="Choose the date:" />
-                  <Label layoutX="107.0" layoutY="14.0" prefHeight="34.0" prefWidth="98.0" text="Current Date:">
+                  <DatePicker fx:id="datePicker" layoutX="243.0" layoutY="108.0" onAction="#datePickerPicked" prefHeight="26.0" prefWidth="116.0" />
+                  <Label layoutX="125.0" layoutY="112.0" text="Change the date:" />
+                  <Label alignment="CENTER" layoutX="193.0" layoutY="14.0" prefHeight="18.0" prefWidth="98.0" text="Current Date:" />
+                  <Label fx:id="currentDateLabel" alignment="CENTER" layoutX="171.0" layoutY="39.0" prefHeight="35.0" prefWidth="141.0" style="-fx-border-color: LIGHTGREY;" text="Label">
                      <font>
                         <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="currentDateLabel" alignment="CENTER" layoutX="219.0" layoutY="19.0" prefHeight="24.0" prefWidth="118.0" style="-fx-border-color: LIGHTGREY;" text="Label" />
-                  <Button fx:id="generateGraphButton" layoutX="329.0" layoutY="171.0" mnemonicParsing="false" onAction="#generateGraphButtonPressed" text="Create" />
-                  <Label alignment="CENTER" layoutX="173.0" layoutY="170.0" prefHeight="27.0" prefWidth="140.0" text="Progress Graph" textAlignment="CENTER">
+                     </font></Label>
+                  <Button fx:id="generateGraphButton" layoutX="329.0" layoutY="171.0" mnemonicParsing="false" onAction="#generateGraphButtonPressed" style="-fx-border-color: GREEN;" text="Create" />
+                  <Label alignment="CENTER" layoutX="173.0" layoutY="170.0" prefHeight="27.0" prefWidth="140.0" style="-fx-border-color: GREEN;" text="Progress Graph" textAlignment="CENTER">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Button layoutX="112.0" layoutY="171.0" mnemonicParsing="false" onAction="#clearGraphPressed" text="Clear" />
+                  <Button layoutX="112.0" layoutY="171.0" mnemonicParsing="false" onAction="#clearGraphPressed" style="-fx-border-color: GREEN;" text="Clear" />
                </children></AnchorPane>
             <BarChart fx:id="datesVsCaloriesGraph" prefHeight="330.0" prefWidth="502.0" style="-fx-border-color: GREEN;">
               <xAxis>
@@ -88,16 +87,16 @@
             </BarChart>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: PINK;">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" text="Measurement Converter" />
-                  <TextField fx:id="lbsToKg" layoutX="78.0" layoutY="75.0" prefHeight="26.0" prefWidth="83.0" />
-                  <Label layoutX="14.0" layoutY="79.0" text="Lbs Input" />
-                  <Label layoutX="4.0" layoutY="120.0" text="Inches Input" />
-                  <TextField fx:id="InToCm" layoutX="78.0" layoutY="115.0" prefHeight="26.0" prefWidth="83.0" />
-                  <Button layoutX="347.0" layoutY="161.0" mnemonicParsing="false" onAction="#convertMeasurement" text="Convert" />
-                  <Label layoutX="215.0" layoutY="79.0" text="Kg Conversion" />
-                  <TextField fx:id="lbsToKgOutput" layoutX="302.0" layoutY="75.0" prefHeight="26.0" prefWidth="83.0" />
+                  <Label layoutX="178.0" layoutY="23.0" text="Measurement Converter" />
+                  <TextField fx:id="lbsToKg" layoutX="108.0" layoutY="74.0" prefHeight="26.0" prefWidth="83.0" />
+                  <Label layoutX="41.0" layoutY="78.0" text="Lbs Input" />
+                  <Label layoutX="228.0" layoutY="78.0" text="Inches Input" />
+                  <TextField fx:id="InToCm" layoutX="311.0" layoutY="74.0" prefHeight="26.0" prefWidth="83.0" />
+                  <Button layoutX="193.0" layoutY="159.0" mnemonicParsing="false" onAction="#convertMeasurement" prefHeight="26.0" prefWidth="98.0" text="Convert Input" />
+                  <Label layoutX="14.0" layoutY="118.0" text="Kg Conversion" />
+                  <TextField fx:id="lbsToKgOutput" layoutX="108.0" layoutY="114.0" prefHeight="26.0" prefWidth="83.0" />
                   <Label layoutX="213.0" layoutY="119.0" text="Cm Conversion" />
-                  <TextField fx:id="InToCmOutput" layoutX="302.0" layoutY="115.0" prefHeight="26.0" prefWidth="83.0" />
+                  <TextField fx:id="InToCmOutput" layoutX="311.0" layoutY="114.0" prefHeight="26.0" prefWidth="83.0" />
                </children></AnchorPane>
          </children>
       </VBox>
