@@ -539,7 +539,7 @@ public class MainController {
     }
 
     @FXML
-    void generateGraphButton(ActionEvent event) {
+    void generateGraphButtonPressed(ActionEvent event) {
         if (generateGraph.isSelected()) {
             if ((!(User.getGoal() == null)) && (!(User.getWeight() == 0)) && (!(User.getHeight() == 0))) {
 
@@ -600,6 +600,11 @@ public class MainController {
         } else {
             datesVsCaloriesGraph.getData().clear();
         }
+    }
+
+    @FXML
+    void clearGraphPressed() {
+
     }
 
     @FXML

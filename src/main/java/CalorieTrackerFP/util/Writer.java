@@ -27,17 +27,17 @@ public class Writer {
             infoWriter.newLine();
             infoWriter.write("Height(cm):" + ourUser.getHeight());
             infoWriter.newLine();
-            if(ourUser.getWaistMeasurement() != 0){
-                infoWriter.write("Neck(cm):" + ourUser.getNeckMeasurement());
-                infoWriter.newLine();
-            }
-            if(ourUser.getWaistMeasurement() != 0){
-                infoWriter.write("Waist(cm):" + ourUser.getWaistMeasurement());
-                infoWriter.newLine();
-            }
-            if(ourUser.getHipMeasurement() != 0){
-                infoWriter.write("Hip(cm):" + ourUser.getHipMeasurement());
-            }
+            infoWriter.write("Neck(cm):" + ourUser.getNeckMeasurement());
+            infoWriter.newLine();
+            infoWriter.write("Waist(cm):" + ourUser.getWaistMeasurement());
+            infoWriter.newLine();
+            infoWriter.write("Hip(cm):" + ourUser.getHipMeasurement());
+
+
+
+
+
+
             infoWriter.close();
             // Placing a catch block in order to print out a file error if the program is unable to save the data to the specified file
         }catch (IOException e){
