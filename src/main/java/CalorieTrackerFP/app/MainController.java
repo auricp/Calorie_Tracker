@@ -663,14 +663,14 @@ public class MainController {
     }
 
     @FXML
-    void saveFile(ActionEvent event) {
+    void saveFile() {
         try{
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(new File("."));
             fileChooser.setInitialFileName("savedInfo.txt.txt");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
             File chosen = fileChooser.showSaveDialog(new Stage());
-            Writer.saveFile(User, chosen);
+            Writer.saveFile(User, dateListHashMap, chosen);
             successMsg.setText("File saved!");
         }catch(Exception e){
             errorMsg.setText("file error");
@@ -678,7 +678,7 @@ public class MainController {
     }
 
     @FXML
-    void loadFile(ActionEvent event) {
+    void loadFile() {
         try{
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select a file to open");

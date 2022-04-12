@@ -6,9 +6,9 @@ public class Person {
     private String gender;
     private double height;
     private double weight;
-    private double neckMeasurement;
-    private double waistMeasurement;
-    private double hipMeasurement;
+    private double neckMeasurement = 0;
+    private double waistMeasurement = 0;
+    private double hipMeasurement = 0;
 
     public void setGoal(String goal){
         //method to ask for changing goal
