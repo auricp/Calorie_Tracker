@@ -14,8 +14,8 @@ public class Main extends Application {
     public static final String version = "1.0";
 
     public static void main(String[] args) {
-        launch(args);
         MainController.args = args;
+        launch(args);
     }
 
     public String filename(String[] args){
