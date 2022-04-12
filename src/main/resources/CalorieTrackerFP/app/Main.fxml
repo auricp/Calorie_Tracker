@@ -62,13 +62,21 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <DatePicker fx:id="datePicker" layoutX="216.0" layoutY="21.0" onAction="#datePickerPicked" />
-                  <Label layoutX="118.0" layoutY="25.0" text="Current Date:" />
-                  <RadioButton fx:id="generateGraph" layoutX="177.0" layoutY="162.0" mnemonicParsing="false" onAction="#generateGraphButton" text="Generate Graph">
+                  <DatePicker fx:id="datePicker" layoutX="220.0" layoutY="101.0" onAction="#datePickerPicked" prefHeight="26.0" prefWidth="116.0" />
+                  <Label layoutX="112.0" layoutY="105.0" text="Choose the date:" />
+                  <Label layoutX="107.0" layoutY="14.0" prefHeight="34.0" prefWidth="98.0" text="Current Date:">
                      <font>
-                        <Font size="15.0" />
+                        <Font size="16.0" />
                      </font>
-                  </RadioButton>
+                  </Label>
+                  <Label fx:id="currentDateLabel" alignment="CENTER" layoutX="219.0" layoutY="19.0" prefHeight="24.0" prefWidth="118.0" style="-fx-border-color: LIGHTGREY;" text="Label" />
+                  <Button fx:id="generateGraphButton" layoutX="329.0" layoutY="171.0" mnemonicParsing="false" onAction="#generateGraphButtonPressed" text="Create" />
+                  <Label alignment="CENTER" layoutX="173.0" layoutY="170.0" prefHeight="27.0" prefWidth="140.0" text="Progress Graph" textAlignment="CENTER">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="112.0" layoutY="171.0" mnemonicParsing="false" onAction="#clearGraphPressed" text="Clear" />
                </children></AnchorPane>
             <BarChart fx:id="datesVsCaloriesGraph" prefHeight="330.0" prefWidth="502.0" style="-fx-border-color: GREEN;">
               <xAxis>

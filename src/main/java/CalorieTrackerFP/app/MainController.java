@@ -33,7 +33,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class MainController extends Main{
+public class MainController {
+
+    @FXML
+    private Label currentDateLabel;
 
     @FXML
     private DatePicker datePicker;
@@ -163,6 +166,7 @@ public class MainController extends Main{
 
         datesXAxis.setAnimated(false);
         caloriesYAxis.setAnimated(false);
+        datesVsCaloriesGraph.setAnimated(false);
     }
 
 
@@ -180,10 +184,6 @@ public class MainController extends Main{
 
         //store the two maps with their respective day inside the hashmap
         dateListHashMap.put(currentDateInProgram, maps);
-
-        //old maps are stored into the dateHashMap, so make some blank objects
-        foodMap = new Food();
-        exerciseMap = new Exercise();
     }
 
     /**
@@ -194,14 +194,22 @@ public class MainController extends Main{
 
         //save the programs current foodMap and exerciseMap to the hashmap of dates, with the old date as the identifier
 
+        updateDateHashmap();
+
+        //old maps are stored into the dateHashMap, so make some blank objects
+        foodMap = new Food();
+        exerciseMap = new Exercise();
+
+        //System.out.println(datePicker.getValue());
         LocalDate userDate = datePicker.getValue();
 
-        updateDateHashmap();
+        currentDateInProgram = userDate;
+        currentDateLabel.setText(userDate.toString());
 
         for (LocalDate hashmapDate : dateListHashMap.keySet()) {
         }
 
-        currentDateInProgram = userDate;
+
 
         //getting the new foodMap and exerciseMap from the hashmap, because we switched to a different day
 
@@ -425,6 +433,7 @@ public class MainController extends Main{
                             updateALabel("Successfully inputted food!", "success", Color.GREEN);
                             viewFoodButton.setSelected(true);
                             viewFoodButtonPressed();
+                            updateDateHashmap();
                         } else {
                             throw new Exception();
                         }
@@ -438,6 +447,7 @@ public class MainController extends Main{
                             updateALabel("Successfully inputted exercise!", "success", Color.GREEN);
                             viewExercisesButton.setSelected(true);
                             viewExercisesButtonPressed();
+                            updateDateHashmap();
                         } else {
                             throw new Exception();
                         }
