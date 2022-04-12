@@ -621,11 +621,15 @@ public class MainController {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
             fileChooser.setInitialDirectory(new File("."));
             File chosen = fileChooser.showOpenDialog((Window)null);
-            //dateListHashMap = Reader.readFile(User, chosen);
-            Reader.readFile(User, chosen);
+            dateListHashMap = Reader.readFile(User, chosen);
             successMsg.setText("File loaded!");
+            //set the programs foodMap and exerciseMap to the newly loaded ones (start the user on the first date inputted)
+            System.out.println(dateListHashMap);
+//            foodMap = (Food) (dateListHashMap.get(0)).get(0);
+//            exerciseMap = (Exercise) (dateListHashMap.get(0)).get(1);
         }catch(Exception e){
             errorMsg.setText("File couldn't load!");
+            System.out.println(e);
         }
     }
 }
