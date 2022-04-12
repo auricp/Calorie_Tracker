@@ -107,10 +107,6 @@ public class MainController {
 
     public static String[] args;
 
-
-
-
-
     @FXML
     private RadioButton addExerciseButton;
 
@@ -174,10 +170,12 @@ public class MainController {
         foodMap = new Food();
         exerciseMap = new Exercise();
 
+        command();
+
         goalChoose.getItems().addAll(goals);
         genderChoose.getItems().addAll(genders);
 
-        System.out.println("current date: " + now);
+        //System.out.println("current date: " + now);
         currentDateLabel.setText(now.toString());
 
         dateListHashMap.put(currentDateInProgram, new ArrayList<>());
@@ -243,7 +241,7 @@ public class MainController {
 
         //if the date is already in the hashmap (there is already inputted data)
         if (dateListHashMap.containsKey(userDate)) {
-            System.out.println("Contains date already!");
+            //System.out.println("Contains date already!");
             //get the list of the stored maps from the hashmap using the date
             ArrayList<UserMapData> listOfMaps = dateListHashMap.get(userDate);
             //get each individual map from the list of maps
@@ -258,7 +256,7 @@ public class MainController {
         }
 
         for (LocalDate hashmapDate : dateListHashMap.keySet()) {
-            System.out.println("Date: " + hashmapDate + " Maps: " + dateListHashMap.get(hashmapDate));
+            //System.out.println("Date: " + hashmapDate + " Maps: " + dateListHashMap.get(hashmapDate));
         }
     }
 
@@ -609,7 +607,7 @@ public class MainController {
                 String currentDay = currentDateInProgram.toString();
                 String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
 
-                System.out.println("added a new max calories");
+                //System.out.println("added a new max calories");
                 series.getData().add(new XYChart.Data<>(previousDay, calorieTotal));
             }
 
@@ -741,7 +739,7 @@ public class MainController {
             dateListHashMap = Reader.readFile(User, chosen);
             successMsg.setText("File loaded!");
             //set the programs foodMap and exerciseMap to the newly loaded ones (start the user on the first date inputted)
-            System.out.println(dateListHashMap);
+            //System.out.println(dateListHashMap);
             //if the current date is one of the dates we load from a file, make sure to change the programs current foodMap
             //and exerciseMap to the ones in the file (or else nothing works until you choose a diff day)
             if (dateListHashMap.containsKey(currentDateInProgram)) {
@@ -763,13 +761,25 @@ public class MainController {
 
     public void command(){
         try{
-            if(args.length >0){
+            if(args.length == 1){
+                //System.out.println("file in command line");
                 String filename = args[0];
                 File file = new File(filename);
-                Reader.readFile(User,file);
+                dateListHashMap = Reader.readFile(User, file);
+                successMsg.setText("File loaded!");
+                //set the programs foodMap and exerciseMap to the newly loaded ones (start the user on the first date inputted)
+                //System.out.println(dateListHashMap);
+                //if the current date is one of the dates we load from a file, make sure to change the programs current foodMap
+                //and exerciseMap to the ones in the file (or else nothing works until you choose a diff day)
+                if (dateListHashMap.containsKey(currentDateInProgram)) {
+                    foodMap = (Food) (dateListHashMap.get(currentDateInProgram)).get(0);
+                    exerciseMap = (Exercise) (dateListHashMap.get(currentDateInProgram)).get(1);
+                }
+            } else {
+                updateALabel("File from command line was not a valid input!", "error", Color.RED);
             }
         }catch(Exception e){
-            updateALabel("could not load file", "error", Color.RED);
+            updateALabel("Could not load file from command line", "error", Color.RED);
         }
     }
 
