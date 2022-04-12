@@ -173,7 +173,7 @@
                   <TextField fx:id="mapItemInput" layoutX="156.0" layoutY="73.0" prefHeight="25.0" prefWidth="77.0" />
                   <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="109.0" prefHeight="17.0" prefWidth="50.0" text="Calories:" />
                   <TextField fx:id="mapInputCalories" layoutX="156.0" layoutY="105.0" prefHeight="25.0" prefWidth="76.0" />
-                  <Button fx:id="addItemToMapButton" alignment="CENTER" layoutX="127.0" layoutY="152.0" mnemonicParsing="false" onAction="#addItemToMapButtonClicked" prefHeight="25.0" prefWidth="89.0" text="Add Item" />
+                  <Button fx:id="addItemToMapButton" alignment="CENTER" layoutX="127.0" layoutY="152.0" mnemonicParsing="false" onAction="#addItemToMapButtonClicked" prefHeight="25.0" prefWidth="89.0" text="Select Item" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="62.0" prefWidth="344.0">

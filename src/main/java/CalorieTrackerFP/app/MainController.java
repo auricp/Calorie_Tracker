@@ -164,6 +164,9 @@ public class MainController {
         System.out.println("current date: " + now);
 
         dateListHashMap.put(currentDateInProgram, new ArrayList<>());
+
+        datesXAxis.setAnimated(false);
+        caloriesYAxis.setAnimated(false);
     }
 
     void updateDateHashmap() {
@@ -480,11 +483,10 @@ public class MainController {
 
     @FXML
     void generateGraphButton(ActionEvent event) {
-        datesXAxis.setAnimated(false);
-        caloriesYAxis.setAnimated(false);
         if (generateGraph.isSelected()) {
+            if ((!(User.getGoal() == null)) && (!(User.getWeight() == 0)) && (!(User.getHeight() == 0))) {
 
-            int calorieTotal = Calories.getCalorieTotal(User.getWeight(), User.getGoal());
+                int calorieTotal = Calories.getCalorieTotal(User.getWeight(), User.getGoal());
 
 //        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
 //        series2.setName("Daily calories recorded");
@@ -496,49 +498,53 @@ public class MainController {
 //        series2.getData().add(new XYChart.Data<>("day 6", 100));
 //        series2.getData().add(new XYChart.Data<>("day 7", 1500));
 
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("Daily calorie total");
+                XYChart.Series<String, Number> series = new XYChart.Series<>();
+                series.setName("Daily calories needed");
 
-            for (int i = 0; i < 7; i++) {
-                String currentDay = currentDateInProgram.toString();
-                String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
+                for (int i = 0; i < 7; i++) {
+                    String currentDay = currentDateInProgram.toString();
+                    String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
 //                LocalDate thePreviousDate = LocalDate.parse(previousDay);
 
-                System.out.println("added a new max calories");
-                series.getData().add(new XYChart.Data<>(previousDay, calorieTotal));
-            }
+                    System.out.println("added a new max calories");
+                    series.getData().add(new XYChart.Data<>(previousDay, calorieTotal));
+                }
 
-            datesVsCaloriesGraph.getData().add(series);
+                datesVsCaloriesGraph.getData().add(series);
 
-            XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-            series2.setName("Daily calories recorded");
+                XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+                series2.setName("Daily calories recorded");
 
-            for (int i = 0; i < 7; i++) {
-                String currentDay = currentDateInProgram.toString();
-                String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
-                LocalDate thePreviousDate = LocalDate.parse(previousDay);
+                for (int i = 0; i < 7; i++) {
+                    String currentDay = currentDateInProgram.toString();
+                    String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
+                    LocalDate thePreviousDate = LocalDate.parse(previousDay);
 
-                if (dateListHashMap.containsKey(thePreviousDate)) {
-                    if (!dateListHashMap.get(thePreviousDate).isEmpty()) {
-                        ArrayList<UserMapData> maps = dateListHashMap.get(thePreviousDate);
-                        UserMapData foodMap = maps.get(0);
-                        UserMapData exerciseMap = maps.get(1);
-                        int remainingCalories = Calories.calculateRemainingCals(foodMap.getMap(), exerciseMap.getMap(), calorieTotal);
+                    if (dateListHashMap.containsKey(thePreviousDate)) {
+                        if (!dateListHashMap.get(thePreviousDate).isEmpty()) {
+                            ArrayList<UserMapData> maps = dateListHashMap.get(thePreviousDate);
+                            UserMapData foodMap = maps.get(0);
+                            UserMapData exerciseMap = maps.get(1);
+                            int remainingCalories = Calories.calculateRemainingCals(foodMap.getMap(), exerciseMap.getMap(), calorieTotal);
 
-                        System.out.println("added a new remaining calories (amount)");
-                        series2.getData().add(new XYChart.Data<>(previousDay, remainingCalories));
+                            System.out.println("added a new remaining calories (amount)");
+                            series2.getData().add(new XYChart.Data<>(previousDay, remainingCalories));
+                        } else {
+                            System.out.println("maps did not have anything in them!");
+                            System.out.println("added a new remaining calories (0) hehe");
+                            series2.getData().add(new XYChart.Data<>(previousDay, 0));
+                        }
                     } else {
-                        System.out.println("maps did not have anything in them!");
-                        System.out.println("added a new remaining calories (0) hehe");
+                        System.out.println("added a new remaining calories (0)");
                         series2.getData().add(new XYChart.Data<>(previousDay, 0));
                     }
-                } else {
-                    System.out.println("added a new remaining calories (0)");
-                    series2.getData().add(new XYChart.Data<>(previousDay, 0));
                 }
+                System.out.println("\n");
+                datesVsCaloriesGraph.getData().add(series2);
+                updateALabel("Successfully created graph!", "success", Color.GREEN);
+            } else {
+                updateALabel("Enter in weight, height, and a goal before using the graph", "error", Color.RED);
             }
-            System.out.println("\n");
-            datesVsCaloriesGraph.getData().add(series2);
         } else {
             datesVsCaloriesGraph.getData().clear();
         }
@@ -579,7 +585,6 @@ public class MainController {
                 errorMsg.setText("Invalid input for weight or height");
             }
         }
-
     }
 
     @FXML
@@ -596,7 +601,6 @@ public class MainController {
             errorMsg.setText("file error");
         }
     }
-
 
     @FXML
     void loadFile(ActionEvent event) {
