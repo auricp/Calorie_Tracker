@@ -1,0 +1,14 @@
+Goal:muscle
+Gender:man
+Age:18
+Weight(kg):76.0
+Height(cm):180.0
+Neck(cm):20.0
+Waist(cm):0
+Hip(cm):70.0
+2022-04-12,FOOD,burger,300,cheese,75,burger,200,kunafa,300,dinner,1514,EXERCISE,run,200,workout,250
+2022-04-11,FOOD,burger,400,salad,50,lasagna,412,kunafa,300,snack,600,EXERCISE
+2022-04-10,FOOD,burger,500,salad,75,beef,600,kunafa,300,lunch,450,EXERCISE,run,300
+2022-04-09,FOOD,burger,612,greens,50,vegantrash,4,kunafa,300,dinner,1101,EXERCISE,jog,234
+2022-04-07,FOOD,burger,377,artichoke,68,pasta,639,kunafa,300,dinner,1700,EXERCISE,run,200,workout,250,weights,167
+2022-04-06,FOOD,burger,399,peppers,90,peppers,91,peppers,123,kunafa,300,dinner,1500,EXERCISE,run,200,workout,250

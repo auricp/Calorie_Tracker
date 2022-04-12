@@ -193,8 +193,12 @@ public class MainController {
             add(exerciseMap);
         }};
 
-        //store the two maps with their respective day inside the hashmap
-        dateListHashMap.put(currentDateInProgram, maps);
+
+        //store the two maps with their respective day inside the hashmap, only if at least one of them has data
+        //otherwise, don't add that date to the hashmap
+        if (!maps.isEmpty()) {
+            dateListHashMap.put(currentDateInProgram, maps);
+        }
     }
 
     @FXML
@@ -218,12 +222,11 @@ public class MainController {
             System.out.println("Date: " + hashmapDate + " Maps: " + dateListHashMap.get(hashmapDate));
         }
 
-
-
         //getting the new foodMap and exerciseMap from the hashmap, because we switched to a different day
 
         //if the date is already in the hashmap (there is already inputted data)
         if (dateListHashMap.containsKey(userDate)) {
+            System.out.println("Contains date already!");
             //get the list of the stored maps from the hashmap using the date
             ArrayList<UserMapData> listOfMaps = dateListHashMap.get(userDate);
             //get each individual map from the list of maps
@@ -598,11 +601,11 @@ public class MainController {
     @FXML
     void saveFile(ActionEvent event) {
         try{
-            FileChooser file = new FileChooser();
-            file.setInitialDirectory(new File("."));
-            file.setInitialFileName("savedInfo.txt");
-            file.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
-            File chosen = file.showSaveDialog(new Stage());
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory(new File("."));
+            fileChooser.setInitialFileName("savedInfo.txt.txt");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+            File chosen = fileChooser.showSaveDialog(new Stage());
             Writer.saveFile(User, chosen);
             successMsg.setText("File saved!");
         }catch(Exception e){
@@ -613,9 +616,13 @@ public class MainController {
     @FXML
     void loadFile(ActionEvent event) {
         try{
-            FileChooser file = new FileChooser();
-            File chosen = file.showOpenDialog((Window)null);
-            Reader.readFile(User,chosen);
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select a file to open");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+            fileChooser.setInitialDirectory(new File("."));
+            File chosen = fileChooser.showOpenDialog((Window)null);
+            //dateListHashMap = Reader.readFile(User, chosen);
+            Reader.readFile(User, chosen);
             successMsg.setText("File loaded!");
         }catch(Exception e){
             errorMsg.setText("File couldn't load!");
