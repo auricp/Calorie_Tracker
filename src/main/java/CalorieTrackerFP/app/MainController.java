@@ -35,6 +35,9 @@ import java.util.Set;
 public class MainController {
 
     @FXML
+    private Label currentDateLabel;
+
+    @FXML
     private DatePicker datePicker;
 
     @FXML
@@ -126,7 +129,7 @@ public class MainController {
     private TableView<TableEntry> mapTable;
 
     @FXML
-    private RadioButton generateGraph;
+    private Button generateGraphButton;
 
     @FXML
     private BarChart<String, Number> datesVsCaloriesGraph;
@@ -162,11 +165,13 @@ public class MainController {
         genderChoose.getItems().addAll(genders);
 
         System.out.println("current date: " + now);
+        currentDateLabel.setText(now.toString());
 
         dateListHashMap.put(currentDateInProgram, new ArrayList<>());
 
         datesXAxis.setAnimated(false);
         caloriesYAxis.setAnimated(false);
+        datesVsCaloriesGraph.setAnimated(false);
     }
 
     void updateDateHashmap() {
@@ -180,10 +185,6 @@ public class MainController {
 
         //store the two maps with their respective day inside the hashmap
         dateListHashMap.put(currentDateInProgram, maps);
-
-        //old maps are stored into the dateHashMap, so make some blank objects
-        foodMap = new Food();
-        exerciseMap = new Exercise();
     }
 
     @FXML
@@ -191,17 +192,24 @@ public class MainController {
 
         //save the programs current foodMap and exerciseMap to the hashmap of dates, with the old date as the identifier
 
+        updateDateHashmap();
+
+        //old maps are stored into the dateHashMap, so make some blank objects
+        foodMap = new Food();
+        exerciseMap = new Exercise();
+
         //System.out.println(datePicker.getValue());
         LocalDate userDate = datePicker.getValue();
 
-        updateDateHashmap();
+        currentDateInProgram = userDate;
+        currentDateLabel.setText(userDate.toString());
 
         for (LocalDate hashmapDate : dateListHashMap.keySet()) {
             System.out.println("Date: " + hashmapDate + " Maps: " + dateListHashMap.get(hashmapDate));
         }
         System.out.println("\n");
 
-        currentDateInProgram = userDate;
+
 
         //getting the new foodMap and exerciseMap from the hashmap, because we switched to a different day
 
@@ -217,8 +225,7 @@ public class MainController {
             exerciseMap = (Exercise) exerciseMapFromHashmap;
             //the inputted date does not have previous data associated with it
         } else {
-            foodMap = this.foodMap;
-            exerciseMap = this.exerciseMap;
+            //if this date isn't in the hashmap already, then there's no maps to load from it
         }
     }
 
@@ -388,6 +395,7 @@ public class MainController {
                             updateALabel("Successfully inputted food!", "success", Color.GREEN);
                             viewFoodButton.setSelected(true);
                             viewFoodButtonPressed();
+                            updateDateHashmap();
                         } else {
                             throw new Exception();
                         }
@@ -399,9 +407,14 @@ public class MainController {
                             updateALabel("Successfully inputted exercise!", "success", Color.GREEN);
                             viewExercisesButton.setSelected(true);
                             viewExercisesButtonPressed();
+                            updateDateHashmap();
                         } else {
                             throw new Exception();
                         }
+                    }
+                    //if there is an active graph, update it
+                    if (generateGraphButton.getText().equals("Refresh")) {
+                        generateGraphButtonPressed();
                     }
                 } catch (Exception e) {
                     updateALabel("Please enter in strings for item inputs and integers for calories", "error" ,Color.RED);
@@ -482,72 +495,69 @@ public class MainController {
     }
 
     @FXML
-    void generateGraphButton(ActionEvent event) {
-        if (generateGraph.isSelected()) {
-            if ((!(User.getGoal() == null)) && (!(User.getWeight() == 0)) && (!(User.getHeight() == 0))) {
+    void generateGraphButtonPressed() {
 
-                int calorieTotal = Calories.getCalorieTotal(User.getWeight(), User.getGoal());
+        if ((!(User.getGoal() == null)) && (!(User.getWeight() == 0)) && (!(User.getHeight() == 0))) {
+            clearGraphPressed();
 
-//        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-//        series2.setName("Daily calories recorded");
-//        series2.getData().add(new XYChart.Data<>("day 1", 200));
-//        series2.getData().add(new XYChart.Data<>("day 2", 400));
-//        series2.getData().add(new XYChart.Data<>("day 3", 2100));
-//        series2.getData().add(new XYChart.Data<>("day 4", 1700));
-//        series2.getData().add(new XYChart.Data<>("day 5", 2600));
-//        series2.getData().add(new XYChart.Data<>("day 6", 100));
-//        series2.getData().add(new XYChart.Data<>("day 7", 1500));
+            int calorieTotal = Calories.getCalorieTotal(User.getWeight(), User.getGoal());
 
-                XYChart.Series<String, Number> series = new XYChart.Series<>();
-                series.setName("Daily calories needed");
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Daily calories needed");
 
-                for (int i = 0; i < 7; i++) {
-                    String currentDay = currentDateInProgram.toString();
-                    String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
-//                LocalDate thePreviousDate = LocalDate.parse(previousDay);
+            for (int i = 0; i < 7; i++) {
+                String currentDay = currentDateInProgram.toString();
+                String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
 
-                    System.out.println("added a new max calories");
-                    series.getData().add(new XYChart.Data<>(previousDay, calorieTotal));
-                }
+                System.out.println("added a new max calories");
+                series.getData().add(new XYChart.Data<>(previousDay, calorieTotal));
+            }
 
-                datesVsCaloriesGraph.getData().add(series);
+            datesVsCaloriesGraph.getData().add(series);
 
-                XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-                series2.setName("Daily calories recorded");
+            XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+            series2.setName("Daily calories recorded");
 
-                for (int i = 0; i < 7; i++) {
-                    String currentDay = currentDateInProgram.toString();
-                    String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
-                    LocalDate thePreviousDate = LocalDate.parse(previousDay);
+            for (int i = 0; i < 7; i++) {
+                String currentDay = currentDateInProgram.toString();
+                String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
+                LocalDate thePreviousDate = LocalDate.parse(previousDay);
 
-                    if (dateListHashMap.containsKey(thePreviousDate)) {
-                        if (!dateListHashMap.get(thePreviousDate).isEmpty()) {
-                            ArrayList<UserMapData> maps = dateListHashMap.get(thePreviousDate);
-                            UserMapData foodMap = maps.get(0);
-                            UserMapData exerciseMap = maps.get(1);
-                            int remainingCalories = Calories.calculateRemainingCals(foodMap.getMap(), exerciseMap.getMap(), calorieTotal);
+                if (dateListHashMap.containsKey(thePreviousDate)) {
+                    if (!dateListHashMap.get(thePreviousDate).isEmpty()) {
+                        ArrayList<UserMapData> maps = dateListHashMap.get(thePreviousDate);
+                        UserMapData foodMap = maps.get(0);
+                        UserMapData exerciseMap = maps.get(1);
+                        int remainingCalories = Calories.calculateRemainingCals(foodMap.getMap(), exerciseMap.getMap(), calorieTotal);
 
-                            System.out.println("added a new remaining calories (amount)");
-                            series2.getData().add(new XYChart.Data<>(previousDay, remainingCalories));
-                        } else {
-                            System.out.println("maps did not have anything in them!");
-                            System.out.println("added a new remaining calories (0) hehe");
-                            series2.getData().add(new XYChart.Data<>(previousDay, 0));
-                        }
+                        System.out.println("added a new remaining calories (amount)");
+                        series2.getData().add(new XYChart.Data<>(previousDay, remainingCalories));
                     } else {
-                        System.out.println("added a new remaining calories (0)");
+                        System.out.println("maps did not have anything in them!");
+                        System.out.println("added a new remaining calories (0) hehe");
                         series2.getData().add(new XYChart.Data<>(previousDay, 0));
                     }
+                } else {
+                    System.out.println("added a new remaining calories (0)");
+                    series2.getData().add(new XYChart.Data<>(previousDay, 0));
                 }
-                System.out.println("\n");
-                datesVsCaloriesGraph.getData().add(series2);
-                updateALabel("Successfully created graph!", "success", Color.GREEN);
-            } else {
-                updateALabel("Enter in weight, height, and a goal before using the graph", "error", Color.RED);
             }
+            System.out.println("\n");
+            datesVsCaloriesGraph.getData().add(series2);
+            updateALabel("Successfully created graph!", "success", Color.GREEN);
+            generateGraphButton.setText("Refresh");
+
         } else {
-            datesVsCaloriesGraph.getData().clear();
+            updateALabel("Missing one of: goal/weight/height to create the graph", "error", Color.RED);
         }
+
+    }
+
+    @FXML
+    void clearGraphPressed() {
+        datesVsCaloriesGraph.getData().clear();
+        generateGraphButton.setText("Create");
+        updateALabel("Successfully cleared the graph!", "success", Color.LIMEGREEN);
     }
 
     @FXML
