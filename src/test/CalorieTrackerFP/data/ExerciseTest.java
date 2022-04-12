@@ -11,9 +11,9 @@ class ExerciseTest {
     @Test
     void addToMap() {
         Exercise expected = new Exercise();
-        expected.addToMap("Burger",200);
+        expected.addToMap("Running",200);
         Exercise result = new Exercise();
-        result.addToMap("Burger",200);
+        result.addToMap("Running",200);
         assertEquals(expected.toString(),result.toString());
     }
 
