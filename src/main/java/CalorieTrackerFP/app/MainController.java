@@ -17,7 +17,6 @@ import CalorieTrackerFP.util.Writer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -28,17 +27,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MainController {
+
+    public static String[] args;
 
     @FXML
     private Label currentDateLabel;
@@ -99,11 +97,6 @@ public class MainController {
 
     @FXML
     private TextArea bmiBfPrint;
-
-//    @FXML
-//    private TextArea calculationTextArea;
-
-    public static String[] args;
 
     @FXML
     private RadioButton addExerciseButton;
@@ -327,11 +320,11 @@ public class MainController {
     }
 
     /**
-     * This function displays all of the users inputted information in a text area below the button. If the user did not enter a specific type of data (the data will display as 0)
+     * This function displays all the users inputted information in a text area below the button. If the user did not enter a specific type of data (the data will display as 0)
      */
     @FXML
     void viewUserInfoButton() {
-        // Using new line in order to print all of the users info in a clean manner
+        // Using new line in order to print all the users' info in a clean manner
         String print = "Goal: " + User.getGoal() + "\nGender: " + User.getGender() + "\nAge: " + User.getAge() + "\nWeight: " + User.getWeight() + "kg\nHeight: " + User.getHeight() + "cm\nNeck: " + User.getNeckMeasurement() + "cm\nWaist: " + User.getWaistMeasurement() + "cm\nHip: " + User.getHipMeasurement() + "cm";
         viewUserInfoTextArea.setText(print);
     }
@@ -373,12 +366,10 @@ public class MainController {
      */
     @FXML
     void addFoodButtonToggled() {
-        // setting other radioButton to false to unselect it
+        // setting other radioButton to false, which will unselect it
         addExerciseButton.setSelected(false);
         itemNameLabel.setText("Food:");
         addItemToMapButton.setText("Add food");
-//        mapItemInput.setText("");
-//        mapInputCalories.setText("");
     }
 
     /**
@@ -389,8 +380,6 @@ public class MainController {
         addFoodButton.setSelected(false);
         itemNameLabel.setText("Exercise:");
         addItemToMapButton.setText("Add exercise");
-//        mapItemInput.setText("");
-//        mapInputCalories.setText("");
     }
 
     /**
@@ -410,7 +399,7 @@ public class MainController {
     }
 
     /**
-     * This function adds the given food or exercise as well as its corrosponding calories to a hashmap for the specific day
+     * This function adds the given food or exercise as well as its corresponding calories to a hashmap for the specific day
      */
     @FXML
     void addItemToMapButtonClicked() {
@@ -472,7 +461,7 @@ public class MainController {
     }
 
     /**
-     * This function allows the user to view all the exercises that they performed on a specific day on the table located on the lefthand side of the window
+     * This function allows the user to view all the exercises that they performed on a specific day on the table located on the left-hand side of the window
      */
     @FXML
     void viewExercisesButtonPressed() {
@@ -491,13 +480,13 @@ public class MainController {
 
             // looping through all the exercises and adding them to the table
             for (int i = 0; i < exerciseNames.size(); i++) {
-                tableEntries.add(new TableEntry((String) exerciseNames.get(i), (String) calorieAmounts.get(i)));
+                tableEntries.add(new TableEntry(exerciseNames.get(i), calorieAmounts.get(i)));
             }
             // clearing the maps after they are added to the tables
             mapTable.getItems().clear();
             mapTable.getColumns().clear();
 
-            // Using the tableColumn methods in order to set up the table with exercises on the lefthand side and calories on the right side
+            // Using the tableColumn methods in order to set up the table with exercises on the left-hand side and calories on the right side
             TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Exercises");
             itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
@@ -530,13 +519,13 @@ public class MainController {
 
             //  looping through the food list and adding all of it to the display table
             for (int i = 0; i < foodNames.size(); i++) {
-                tableEntries.add(new TableEntry((String) foodNames.get(i), (String) calorieAmounts.get(i)));
+                tableEntries.add(new TableEntry(foodNames.get(i), calorieAmounts.get(i)));
             }
             // clearing both maps so that new info can be added
             mapTable.getItems().clear();
             mapTable.getColumns().clear();
 
-            // Setting up the table food name and food calorie enteries
+            // Setting up the table food name and food calorie entries
             TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Food");
             itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
@@ -550,7 +539,7 @@ public class MainController {
     }
 
     /**
-     * This function generates the users graph for total calories and calories currently eaten in a 7 day range
+     * This function generates the users graph for total calories and calories currently eaten in a 7-day range
      */
     @FXML
     void generateGraphButtonPressed() {
@@ -586,7 +575,7 @@ public class MainController {
                 String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
                 LocalDate thePreviousDate = LocalDate.parse(previousDay);
 
-                // Checking if the previous day is avaliable and if so print that information to the graph
+                // Checking if the previous day is available and if so print that information to the graph
                 if (dateListHashMap.containsKey(thePreviousDate)) {
                     if (!dateListHashMap.get(thePreviousDate).isEmpty()) {
                         ArrayList<UserMapData> maps = dateListHashMap.get(thePreviousDate);
@@ -609,7 +598,7 @@ public class MainController {
             updateALabel("Successfully created graph!", "success", Color.GREEN);
             generateGraphButton.setText("Refresh");
 
-            // If the above doesnt go through then tell the user that they are missing a piece of information
+            // If the above doesn't go through then tell the user that they are missing a piece of information
         } else {
             updateALabel("Missing one of: goal/weight/height to create the graph", "error", Color.RED);
         }
@@ -631,11 +620,11 @@ public class MainController {
      * This function converts lbs to kg and inches to cm to help the user
      */
     @FXML
-    void convertMeasurement(ActionEvent event) {
-        // checking if the textbox is not empty and if so do the conversion
+    void convertMeasurement() {
+        // checking if the text box is not empty and if so do the conversion
         if(!lbsToKg.getText().equals("")){
             try{
-                // using the universal lbs to kg conversion number in order to convert it and then print it out to the rightmost textfield
+                // using the universal lbs to kg conversion number in order to convert it and then print it out to the rightmost text-field
                 double lbsToKgConversion = 2.205;
                 double weightLbs = Double.parseDouble(lbsToKg.getText());
                 double weightKg = weightLbs/lbsToKgConversion;
@@ -656,7 +645,7 @@ public class MainController {
                 errorMsg.setText("Not a valid input for height");
             }
         }
-        // if the user enters both lbs and inches than do both of the above conversions simutaneously
+        // if the user enters both lbs and inches than do both of the above conversions simultaneously
         if(!lbsToKg.getText().equals("") && !InToCm.getText().equals("")){
             try{
                 double lbsToKgConversion = 2.205;
@@ -698,7 +687,7 @@ public class MainController {
             fileChooser.setTitle("Select a file to open");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
             fileChooser.setInitialDirectory(new File("."));
-            File chosen = fileChooser.showOpenDialog((Window)null);
+            File chosen = fileChooser.showOpenDialog(new Stage());
             dateListHashMap = Reader.readFile(User, chosen);
             successMsg.setText("File loaded!");
             //set the programs foodMap and exerciseMap to the newly loaded ones (start the user on the first date inputted)
@@ -715,7 +704,7 @@ public class MainController {
     }
 
     @FXML
-    void InfoPopup(ActionEvent event) {
+    void InfoPopup() {
         Alert ProgramInfo = new Alert(Alert.AlertType.INFORMATION, "Creators: Auric Adubofour-Poku/Colton Gowans \nEmails: auric.adubofourpoku@ucalgary.ca/colton.gowans@ucalgary.ca \nVersion: 1.0 \nInfo: A calorie tracker for people to see their fitness journey");
         ProgramInfo.show();
         ProgramInfo.setHeaderText("Program Details");
@@ -747,7 +736,7 @@ public class MainController {
     }
 
     @FXML
-    void exitProgram(ActionEvent event) {
+    void exitProgram() {
         Platform.exit();
     }
 }
