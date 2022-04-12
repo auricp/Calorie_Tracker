@@ -105,6 +105,8 @@ public class MainController {
 //    @FXML
 //    private TextArea calculationTextArea;
 
+    public static String[] args;
+
 
 
 
@@ -753,6 +755,18 @@ public class MainController {
         ProgramInfo.show();
         ProgramInfo.setHeaderText("Program Details");
         ProgramInfo.setTitle("Project Details");
+    }
+
+    public void command(){
+        try{
+            if(args.length >0){
+                String filename = args[0];
+                File file = new File(filename);
+                Reader.readFile(User,file);
+            }
+        }catch(Exception e){
+            updateALabel("could not load file", "error", Color.RED);
+        }
     }
 
     @FXML

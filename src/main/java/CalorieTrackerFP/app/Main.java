@@ -15,10 +15,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        if (args.length == 1) {
-//            Reader.readFile()
-            String fileToRead = args[0];
-        }
+        MainController.args = args;
     }
 
     public String filename(String[] args){
