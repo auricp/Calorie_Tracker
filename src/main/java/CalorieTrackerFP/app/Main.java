@@ -15,16 +15,16 @@ public class Main extends Application {
     public static final String version = "1.0";
 
 
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
-//    public String filename(String[] args){
-//        if (args.length == 1){
-//           String name = args[0];
-//           return name;
-//        }
-//        return "0";
-//    }
+    public static void main(String[] args) {
+        launch(args);
+    }
+    public String filename(String[] args){
+        if (args.length == 1){
+           String name = args[0];
+           return name;
+        }
+        return "0";
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
