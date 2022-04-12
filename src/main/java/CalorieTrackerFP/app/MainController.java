@@ -209,7 +209,9 @@ public class MainController {
     }
 
     /**
-     * This function allows the user to pick their current date using a calendar popup in the program
+     * This function allows the user to pick their current date using a calendar popup in the program. Called every time
+     * the user switches the day, so the program can store the foodMap and exerciseMap to the specific day they were
+     * editing it for
      */
     @FXML
     void datePickerPicked() {
@@ -361,6 +363,13 @@ public class MainController {
                 }
                 // Using the same method as above but instead for body fat percentage
             }else if(bfRadio.isSelected()){
+                if (String.valueOf(this.User.getBodyFat()).equals("NaN")) {
+                    if (User.getGender().equals("man")) {
+                        this.updateALabel("Missing one of: weight/height/neck/waist", "error", Color.RED);
+                    } else {
+                        this.updateALabel("Missing one of: weight/height/neck/waist/hip", "error", Color.RED);
+                    }
+                }
                 bmiBfPrint.setText("Body fat % is " + String.format("%.2f", User.getBodyFat()));
                 successMsg.setText("Body fat % calculated");
             }
@@ -527,6 +536,9 @@ public class MainController {
         }
     }
 
+    /**
+     *
+     */
     @FXML
     void viewFoodButtonPressed() {
         //if the user deselects both buttons

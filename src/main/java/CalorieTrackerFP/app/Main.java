@@ -14,10 +14,14 @@ public class Main extends Application {
 
     public static final String version = "1.0";
 
-
     public static void main(String[] args) {
         launch(args);
+        if (args.length == 1) {
+//            Reader.readFile()
+            String fileToRead = args[0];
+        }
     }
+
     public String filename(String[] args){
         if (args.length == 1){
            String name = args[0];

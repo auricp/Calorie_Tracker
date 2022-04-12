@@ -51,7 +51,7 @@
                   <Font size="14.0" />
                </font></Label>
             <Label prefHeight="33.0" prefWidth="14.0" textFill="#1edd27" />
-            <Label fx:id="successMsg" alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="536.0" textAlignment="RIGHT" textFill="#1edd27">
+            <Label fx:id="successMsg" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="527.0" textAlignment="RIGHT" textFill="#1edd27">
                <font>
                   <Font size="14.0" />
                </font></Label>
