@@ -39,11 +39,11 @@ public class Writer {
             infoWriter.write("Waist(cm):" + ourUser.getWaistMeasurement());
             infoWriter.newLine();
             infoWriter.write("Hip(cm):" + ourUser.getHipMeasurement());
-            infoWriter.newLine();
 
             //writing dates and food/exercises
 
             for (LocalDate hashMapDate : localDateArrayListHashMap.keySet()) {
+                infoWriter.newLine();
                 LocalDate dateToWrite = hashMapDate;
                 infoWriter.write(String.valueOf(dateToWrite) + ",");
 
@@ -68,8 +68,6 @@ public class Writer {
                     infoWriter.write(String.valueOf(exerciseNames.get(i)) + ",");
                     infoWriter.write(String.valueOf(exerciseCalories.get(i)) + ",");
                 }
-
-                infoWriter.newLine();
             }
 
             infoWriter.close();
