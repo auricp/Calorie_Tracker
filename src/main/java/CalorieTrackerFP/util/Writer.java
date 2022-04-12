@@ -16,9 +16,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Writer {
+    /**
+     * save to a file when the user asks to, by carefully grabbing the info from our user object and our program hashmap
+     * and writing it perfectly to the file
+     * @param ourUser user object to get measurements from
+     * @param localDateArrayListHashMap program hashMap to get food and exercise data from
+     * @param filename file to save the data to
+     */
     public static void saveFile(Person ourUser, HashMap<LocalDate, ArrayList<UserMapData>> localDateArrayListHashMap, File filename){
 
         try{
+
+            //first, save all the use info to the file
+
             String filenameWrite = filename.getAbsolutePath();
             // Initializing a bufferwriter to write to each of the lines individually)
             BufferedWriter infoWriter = new BufferedWriter(new FileWriter(filenameWrite));
@@ -40,13 +50,14 @@ public class Writer {
             infoWriter.newLine();
             infoWriter.write("Hip(cm):" + ourUser.getHipMeasurement());
 
-            //writing dates and food/exercises
+            //second, for all the dates entered, save the corresponding food and exercise data
 
             for (LocalDate hashMapDate : localDateArrayListHashMap.keySet()) {
                 infoWriter.newLine();
                 LocalDate dateToWrite = hashMapDate;
                 infoWriter.write(String.valueOf(dateToWrite) + ",");
 
+                //get the foodMap stored in the hashMap for that day
                 Food localFoodMap = (Food) localDateArrayListHashMap.get(hashMapDate).get(0);
                 infoWriter.write("FOOD,");
                 //System.out.println(localFoodMap);
