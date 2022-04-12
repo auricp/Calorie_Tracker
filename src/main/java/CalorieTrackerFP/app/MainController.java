@@ -174,6 +174,16 @@ public class MainController {
         datesVsCaloriesGraph.setAnimated(false);
     }
 
+    public void commandFile(File filename) {
+        try {
+            Reader.readFile(this.User, filename);
+            this.updateALabel("File loaded!", "success", Color.GREEN);
+        } catch (Exception var3) {
+            this.updateALabel("File not loaded", "error", Color.RED);
+        }
+
+    }
+
     void updateDateHashmap() {
         //save the programs current foodMap and exerciseMap to the hashmap of dates, with the old date as the identifier
 
@@ -207,7 +217,6 @@ public class MainController {
         for (LocalDate hashmapDate : dateListHashMap.keySet()) {
             System.out.println("Date: " + hashmapDate + " Maps: " + dateListHashMap.get(hashmapDate));
         }
-        System.out.println("\n");
 
 
 
@@ -245,70 +254,55 @@ public class MainController {
 
     @FXML
     void infoUpdate() {
-        User.setGoal(goalChoose.getValue());
-        User.setGender(genderChoose.getValue());
-        try{
-            if(ageInput.getText().equals("")){
-                System.out.print("Wont update age");
-            }else{
-                User.setAge(Integer.parseInt(ageInput.getText()));
+        this.User.setGoal((String)this.goalChoose.getValue());
+        this.User.setGender((String)this.genderChoose.getValue());
+        try {
+            if (!this.ageInput.getText().equals("")) {
+                this.User.setAge(Integer.parseInt(this.ageInput.getText()));
             }
-        }catch(Exception e){
-            System.out.print("Error");
-            errorMsg.setText(ageInput.getText() + "is invalid for age");
+            updateALabel("Info updated!","success",Color.GREEN);
+        } catch (Exception var7) {
+            this.updateALabel(this.ageInput.getText() + "is invalid for age", "error", Color.RED);
         }
-        try{
-            if(weightInput.getText().equals("")){
-                System.out.print("Wont update weight");
-            }else{
-                User.setWeight(Double.parseDouble(weightInput.getText()));
+        try {
+            if (!this.weightInput.getText().equals("")) {
+                this.User.setWeight(Double.parseDouble(this.weightInput.getText()));
             }
-        }catch(Exception e){
-            errorMsg.setText(weightInput.getText() + " is invalid for weight");
-            System.out.print("Error");
+            updateALabel("Info updated!","success",Color.GREEN);
+        } catch (Exception var6) {
+            this.updateALabel(this.weightInput.getText() + " is invalid for weight", "error", Color.RED);
         }
-        try{
-            if(heightInput.getText().equals("")){
-                System.out.print("Wont update height");
-            }else{
-                User.setHeight(Double.parseDouble(heightInput.getText()));
+
+        try {
+            if (!this.heightInput.getText().equals("")) {
+                this.User.setHeight(Double.parseDouble(this.heightInput.getText()));
             }
-        }catch(Exception e){
-            errorMsg.setText(heightInput.getText() + " is invalid for height");
-            System.out.print("Error");
+            updateALabel("Info updated!","success",Color.GREEN);
+        } catch (Exception var5) {
+            this.updateALabel(this.heightInput.getText() + " is invalid for height", "error", Color.RED);
         }
-        try{
-            if(neckInput.getText().equals("")){
-                System.out.print("Wont update neck measurements");
-            }else{
-                User.setNeckMeasurement(Double.parseDouble(neckInput.getText()));
+        try {
+            if (!this.neckInput.getText().equals("")) {
+                this.User.setNeckMeasurement(Double.parseDouble(this.neckInput.getText()));
             }
-        }catch(Exception e){
-            errorMsg.setText(neckInput.getText() + " is invalid for neck measurement");
-            System.out.print("Error");
+            updateALabel("Info updated!","success",Color.GREEN);
+        } catch (Exception var4) {
+            this.updateALabel(this.neckInput.getText() + " is invalid for neck measurement", "error", Color.RED);
         }
-        try{
-            if(waistInput.getText().equals("")){
-                System.out.print("Wont update waist measurement");
-            }else{
-                User.setWaistMeasurement(Double.parseDouble(waistInput.getText()));
+        try {
+            if (!this.waistInput.getText().equals("")) {
+                this.User.setWaistMeasurement(Double.parseDouble(this.waistInput.getText()));
             }
-        }catch(Exception e){
-            errorMsg.setText(waistInput.getText() + " is invalid for waist measurement");
-            System.out.print("Error");
+        } catch (Exception var3) {
+            this.updateALabel(this.waistInput.getText() + " is invalid for waist measurement", "error", Color.RED);
         }
-        try{
-            if(hipInput.getText().equals("")){
-                System.out.print("Wont update hip measurement");
-            }else{
-                User.setHipMeasurement(Double.parseDouble(hipInput.getText()));
+        try {
+            if (!this.hipInput.getText().equals("")) {
+                this.User.setHipMeasurement(Double.parseDouble(this.hipInput.getText()));
             }
-        }catch(Exception e){
-            errorMsg.setText(hipInput.getText() + " is invalid for hip measurement");
-            System.out.print("Error");
+        } catch (Exception var2) {
+            this.updateALabel(this.hipInput.getText() + " is invalid for hip measurement", "error", Color.RED);
         }
-        successMsg.setText("User info updated!");
-        System.out.print("\nBmi is " + User.getBmi());
     }
 
     @FXML
@@ -321,14 +315,18 @@ public class MainController {
     void generateBfBmi(MouseEvent event) {
         try{
             if(bmiRadio.isSelected()){
-                bmiBfPrint.setText("Bmi is " + String.format("%.2f", User.getBmi()));
-                successMsg.setText("Bmi successfully calculated");
+                if (String.valueOf(this.User.getBmi()).equals("NaN")) {
+                    this.updateALabel("Missing one of: weight/height", "error", Color.RED);
+                }else{
+                    bmiBfPrint.setText("Bmi is " + String.format("%.2f", User.getBmi()));
+                    successMsg.setText("Bmi successfully calculated");
+                }
             }else if(bfRadio.isSelected()){
                 bmiBfPrint.setText("Body fat % is " + String.format("%.2f", User.getBodyFat()));
                 successMsg.setText("Body fat % calculated");
             }
         }catch (Exception e){
-            errorMsg.setText("Bmi could not be calculated");
+           errorMsg.setText("Missing one of: weight/height/neck/waist/hip");
         }
     }
 

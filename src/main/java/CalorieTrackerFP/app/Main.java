@@ -1,5 +1,7 @@
 package CalorieTrackerFP.app;
 
+import CalorieTrackerFP.person.Person;
+import CalorieTrackerFP.util.Reader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,4 +25,5 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
 }
