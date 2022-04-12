@@ -69,13 +69,18 @@
                <children>
                   <DatePicker fx:id="datePicker" layoutX="216.0" layoutY="21.0" onAction="#datePickerPicked" />
                   <Label layoutX="118.0" layoutY="25.0" text="Current Date:" />
+                  <RadioButton fx:id="generateGraph" layoutX="177.0" layoutY="162.0" mnemonicParsing="false" onAction="#generateGraphButton" text="Generate Graph">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </RadioButton>
                </children></AnchorPane>
-            <BarChart prefHeight="330.0" prefWidth="502.0" style="-fx-border-color: GREEN;">
+            <BarChart fx:id="datesVsCaloriesGraph" prefHeight="330.0" prefWidth="502.0" style="-fx-border-color: GREEN;">
               <xAxis>
-                <CategoryAxis label="DIFFERENT DAYS" prefHeight="19.0" prefWidth="468.0" side="BOTTOM" />
+                <CategoryAxis fx:id="datesXAxis" prefHeight="19.0" prefWidth="468.0" side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis label="CALORIES" prefHeight="248.0" prefWidth="43.0" side="LEFT" />
+                <NumberAxis fx:id="caloriesYAxis" prefHeight="248.0" prefWidth="43.0" side="LEFT" />
               </yAxis>
             </BarChart>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">

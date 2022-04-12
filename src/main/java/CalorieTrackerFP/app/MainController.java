@@ -1,5 +1,6 @@
 package CalorieTrackerFP.app;
 
+import CalorieTrackerFP.calories.Calories;
 import CalorieTrackerFP.data.Exercise;
 import CalorieTrackerFP.data.Food;
 import CalorieTrackerFP.data.TableEntry;
@@ -11,6 +12,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +30,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class MainController {
 
@@ -120,10 +126,18 @@ public class MainController {
     private TableView<TableEntry> mapTable;
 
     @FXML
-    private TableColumn<?, ?> itemColumn;
+    private RadioButton generateGraph;
 
     @FXML
-    private TableColumn<?, ?> caloriesColumn;
+    private BarChart<String, Number> datesVsCaloriesGraph;
+
+    @FXML
+    private CategoryAxis datesXAxis;
+
+    @FXML
+    private NumberAxis caloriesYAxis;
+
+
 
     private String[] goals = new String[]{"muscle", "loss", "maintenance"};
     private String[] genders = new String[]{"man", "woman"};
@@ -133,7 +147,8 @@ public class MainController {
     Exercise exerciseMap;
 
     LocalDate now = LocalDate.from(LocalDateTime.now());
-    LocalDate previousDate = now;
+
+    LocalDate currentDateInProgram = now;
 
     HashMap<LocalDate, ArrayList<UserMapData>> dateListHashMap = new HashMap<>();
 
@@ -147,6 +162,25 @@ public class MainController {
         genderChoose.getItems().addAll(genders);
 
         System.out.println("current date: " + now);
+
+        dateListHashMap.put(currentDateInProgram, new ArrayList<>());
+    }
+
+    void updateDateHashmap() {
+        //save the programs current foodMap and exerciseMap to the hashmap of dates, with the old date as the identifier
+
+        //put the current foodMap and exerciseMap into a list to be stored in the hashmap
+        ArrayList<UserMapData> maps = new ArrayList<>() {{
+            add(foodMap);
+            add(exerciseMap);
+        }};
+
+        //store the two maps with their respective day inside the hashmap
+        dateListHashMap.put(currentDateInProgram, maps);
+
+        //old maps are stored into the dateHashMap, so make some blank objects
+        foodMap = new Food();
+        exerciseMap = new Exercise();
     }
 
     @FXML
@@ -157,27 +191,14 @@ public class MainController {
         //System.out.println(datePicker.getValue());
         LocalDate userDate = datePicker.getValue();
 
-        //System.out.println("adding to date " + previousDate);
-
-        //put the current foodMap and exerciseMap into a list to be stored in the hashmap
-        ArrayList<UserMapData> maps = new ArrayList<>() {{
-            add(foodMap);
-            add(exerciseMap);
-        }};
-
-        //store the two maps with their respective day inside the hashmap
-        dateListHashMap.put(previousDate, maps);
-
-        //old maps are stored into the dateHashMap, so make some blank objects
-        foodMap = new Food();
-        exerciseMap = new Exercise();
+        updateDateHashmap();
 
         for (LocalDate hashmapDate : dateListHashMap.keySet()) {
             System.out.println("Date: " + hashmapDate + " Maps: " + dateListHashMap.get(hashmapDate));
         }
         System.out.println("\n");
 
-        previousDate = userDate;
+        currentDateInProgram = userDate;
 
         //getting the new foodMap and exerciseMap from the hashmap, because we switched to a different day
 
@@ -277,7 +298,7 @@ public class MainController {
             System.out.print("Error");
         }
         successMsg.setText("User info updated!");
-        System.out.print("\nBmi is " + User.getBmi() );
+        System.out.print("\nBmi is " + User.getBmi());
     }
 
     @FXML
@@ -362,6 +383,8 @@ public class MainController {
                             mapItemInput.setText("");
                             mapInputCalories.setText("");
                             updateALabel("Successfully inputted food!", "success", Color.GREEN);
+                            viewFoodButton.setSelected(true);
+                            viewFoodButtonPressed();
                         } else {
                             throw new Exception();
                         }
@@ -371,6 +394,8 @@ public class MainController {
                         if (allLetters) {
                             exerciseMap.addToMap(exercise, calories);
                             updateALabel("Successfully inputted exercise!", "success", Color.GREEN);
+                            viewExercisesButton.setSelected(true);
+                            viewExercisesButtonPressed();
                         } else {
                             throw new Exception();
                         }
@@ -387,7 +412,7 @@ public class MainController {
     }
 
     @FXML
-    void viewExercisesButtonPressed(ActionEvent event) {
+    void viewExercisesButtonPressed() {
         //if the user deselects both buttons
         if ((!viewFoodButton.isSelected()) && (!viewExercisesButton.isSelected())) {
             mapTable.getItems().clear();
@@ -420,7 +445,7 @@ public class MainController {
     }
 
     @FXML
-    void viewFoodButtonPressed(ActionEvent event) {
+    void viewFoodButtonPressed() {
         //if the user deselects both buttons
         if ((!viewExercisesButton.isSelected()) && (!viewFoodButton.isSelected())) {
             mapTable.getItems().clear();
@@ -451,6 +476,72 @@ public class MainController {
             mapTable.getColumns().addAll(itemColumn, calorieColumn);
         }
 
+    }
+
+    @FXML
+    void generateGraphButton(ActionEvent event) {
+        datesXAxis.setAnimated(false);
+        caloriesYAxis.setAnimated(false);
+        if (generateGraph.isSelected()) {
+
+            int calorieTotal = Calories.getCalorieTotal(User.getWeight(), User.getGoal());
+
+//        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+//        series2.setName("Daily calories recorded");
+//        series2.getData().add(new XYChart.Data<>("day 1", 200));
+//        series2.getData().add(new XYChart.Data<>("day 2", 400));
+//        series2.getData().add(new XYChart.Data<>("day 3", 2100));
+//        series2.getData().add(new XYChart.Data<>("day 4", 1700));
+//        series2.getData().add(new XYChart.Data<>("day 5", 2600));
+//        series2.getData().add(new XYChart.Data<>("day 6", 100));
+//        series2.getData().add(new XYChart.Data<>("day 7", 1500));
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Daily calorie total");
+
+            for (int i = 0; i < 7; i++) {
+                String currentDay = currentDateInProgram.toString();
+                String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
+//                LocalDate thePreviousDate = LocalDate.parse(previousDay);
+
+                System.out.println("added a new max calories");
+                series.getData().add(new XYChart.Data<>(previousDay, calorieTotal));
+            }
+
+            datesVsCaloriesGraph.getData().add(series);
+
+            XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+            series2.setName("Daily calories recorded");
+
+            for (int i = 0; i < 7; i++) {
+                String currentDay = currentDateInProgram.toString();
+                String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
+                LocalDate thePreviousDate = LocalDate.parse(previousDay);
+
+                if (dateListHashMap.containsKey(thePreviousDate)) {
+                    if (!dateListHashMap.get(thePreviousDate).isEmpty()) {
+                        ArrayList<UserMapData> maps = dateListHashMap.get(thePreviousDate);
+                        UserMapData foodMap = maps.get(0);
+                        UserMapData exerciseMap = maps.get(1);
+                        int remainingCalories = Calories.calculateRemainingCals(foodMap.getMap(), exerciseMap.getMap(), calorieTotal);
+
+                        System.out.println("added a new remaining calories (amount)");
+                        series2.getData().add(new XYChart.Data<>(previousDay, remainingCalories));
+                    } else {
+                        System.out.println("maps did not have anything in them!");
+                        System.out.println("added a new remaining calories (0) hehe");
+                        series2.getData().add(new XYChart.Data<>(previousDay, 0));
+                    }
+                } else {
+                    System.out.println("added a new remaining calories (0)");
+                    series2.getData().add(new XYChart.Data<>(previousDay, 0));
+                }
+            }
+            System.out.println("\n");
+            datesVsCaloriesGraph.getData().add(series2);
+        } else {
+            datesVsCaloriesGraph.getData().clear();
+        }
     }
 
     @FXML
