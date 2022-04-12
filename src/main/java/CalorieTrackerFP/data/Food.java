@@ -23,15 +23,21 @@ public class Food extends UserMapData {
         return clonedMap;
     }
 
-    public List[] getMapData() {
-        List<String> foodNames = new ArrayList<String>();
-        List<String> calorieAmounts = new ArrayList<String>();
+    public ArrayList<ArrayList<String>> getMapData() {
+        ArrayList<String> foodNames = new ArrayList<String>();
+        ArrayList<String> calorieAmounts = new ArrayList<String>();
 
         for (String key : foodMap.keySet()) {
             foodNames.add(key);
             calorieAmounts.add(String.valueOf(foodMap.get(key)));
         }
-        List[] output = {foodNames, calorieAmounts};
+
+        ArrayList<ArrayList<String>> output = new ArrayList<>() {
+            {
+                add(foodNames);
+                add(calorieAmounts);
+            }
+        };
 
         return output;
     }

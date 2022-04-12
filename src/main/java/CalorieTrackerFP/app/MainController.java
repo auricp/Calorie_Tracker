@@ -4,7 +4,6 @@ package CalorieTrackerFP.app;
 Colton Gowans, Auric Poku
 April 12th
 Tut 07
-
  */
 
 import CalorieTrackerFP.calories.Calories;
@@ -26,19 +25,18 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public class MainController {
 
@@ -148,8 +146,8 @@ public class MainController {
 
 
     // The following couple of lines are setting our initial variables that we need for the controller
-    private String[] goals = new String[]{"muscle", "loss", "maintenance"};
-    private String[] genders = new String[]{"man", "woman"};
+    private final String[] goals = new String[]{"muscle", "loss", "maintenance"};
+    private final String[] genders = new String[]{"man", "woman"};
 
     Person User;
     Food foodMap;
@@ -183,16 +181,6 @@ public class MainController {
         datesXAxis.setAnimated(false);
         caloriesYAxis.setAnimated(false);
         datesVsCaloriesGraph.setAnimated(false);
-    }
-
-    public void commandFile(File filename) {
-        try {
-            Reader.readFile(this.User, filename);
-            this.updateALabel("File loaded!", "success", Color.GREEN);
-        } catch (Exception var3) {
-            this.updateALabel("File not loaded", "error", Color.RED);
-        }
-
     }
 
     /**
@@ -251,12 +239,6 @@ public class MainController {
             foodMap = (Food) foodMapFromHashmap;
             exerciseMap = (Exercise) exerciseMapFromHashmap;
             //the inputted date does not have previous data associated with it
-        } else {
-            //if this date isn't in the hashmap already, then there's no maps to load from it
-        }
-
-        for (LocalDate hashmapDate : dateListHashMap.keySet()) {
-            //System.out.println("Date: " + hashmapDate + " Maps: " + dateListHashMap.get(hashmapDate));
         }
     }
 
@@ -278,8 +260,6 @@ public class MainController {
             errorMsg.setText("");
             successMsg.setText(message);
             successMsg.setTextFill(inputColour);
-        } else {
-            //wrong input for label on our part
         }
     }
 
@@ -350,7 +330,7 @@ public class MainController {
      * This function displays all of the users inputted information in a text area below the button. If the user did not enter a specific type of data (the data will display as 0)
      */
     @FXML
-    void viewUserInfoButton(ActionEvent event) {
+    void viewUserInfoButton() {
         // Using new line in order to print all of the users info in a clean manner
         String print = "Goal: " + User.getGoal() + "\nGender: " + User.getGender() + "\nAge: " + User.getAge() + "\nWeight: " + User.getWeight() + "kg\nHeight: " + User.getHeight() + "cm\nNeck: " + User.getNeckMeasurement() + "cm\nWaist: " + User.getWaistMeasurement() + "cm\nHip: " + User.getHipMeasurement() + "cm";
         viewUserInfoTextArea.setText(print);
@@ -358,10 +338,9 @@ public class MainController {
 
     /**
      * This function generates the users Bmi or Body fat percentage depending on which radio button they clicked
-     * @param event
      */
     @FXML
-    void generateBfBmi(MouseEvent event) {
+    void generateBfBmi() {
         try{
             if(bmiRadio.isSelected()){
                 // If there is not enough information to print out the bmi then tell the user that they are missing a measurement
@@ -390,26 +369,10 @@ public class MainController {
     }
 
     /**
-     @FXML
-     void bodyFatPercentageButtonToggled(ActionEvent event) {
-     bodyMassIndexButton.setSelected(false);
-     //do the body fat % calc
-     calculationTextArea.setText("Your body fat percentage is ");
-     }
-
-     @FXML
-     void bodyMassIndexButtonToggled(ActionEvent event) {
-     bodyFatPercentageButton.setSelected(false);
-     //do the bmi calc
-     calculationTextArea.setText("Your BMI is ");
-     }
-     */
-
-    /**
      * This function clears the other radio button if this one is pressed
      */
     @FXML
-    void addFoodButtonToggled(ActionEvent event) {
+    void addFoodButtonToggled() {
         // setting other radioButton to false to unselect it
         addExerciseButton.setSelected(false);
         itemNameLabel.setText("Food:");
@@ -422,7 +385,7 @@ public class MainController {
      * This function clears the other radio button if this one is pressed
      */
     @FXML
-    void addExerciseButtonToggled(ActionEvent event) {
+    void addExerciseButtonToggled() {
         addFoodButton.setSelected(false);
         itemNameLabel.setText("Exercise:");
         addItemToMapButton.setText("Add exercise");
@@ -434,7 +397,7 @@ public class MainController {
      * This function clears the other radio button if this one is pressed
      */
     @FXML
-    void bodyFatToggled(ActionEvent event) {
+    void bodyFatToggled() {
         bmiRadio.setSelected(false);
     }
 
@@ -442,7 +405,7 @@ public class MainController {
      * This function clears the other radio button if this one is pressed
      */
     @FXML
-    void BmiToggled(ActionEvent event) {
+    void BmiToggled() {
         bfRadio.setSelected(false);
     }
 
@@ -450,14 +413,14 @@ public class MainController {
      * This function adds the given food or exercise as well as its corrosponding calories to a hashmap for the specific day
      */
     @FXML
-    void addItemToMapButtonClicked(ActionEvent event) {
+    void addItemToMapButtonClicked() {
         // seeing whether the user wants to add a food or exercise
         boolean addFoodButtonPressed = addFoodButton.isSelected();
         boolean addExerciseButtonPressed = addExerciseButton.isSelected();
 
         // if the user pressed either of the radio buttons do the following
         if (addFoodButtonPressed || addExerciseButtonPressed) {
-            if (!mapItemInput.equals("") && !mapInputCalories.equals("")) {
+            if (!mapItemInput.getText().equals("") && !mapInputCalories.getText().equals("")) {
                 try {
                     // getting the number of calories that the user inputted
                     int calories = Integer.parseInt(mapInputCalories.getText());
@@ -520,13 +483,13 @@ public class MainController {
         } else {
             // adding the hashmap for food into a list for easier access
             viewFoodButton.setSelected(false);
-            List[] exerciseMapData = exerciseMap.getMapData();
-            List exerciseNames = exerciseMapData[0];
-            List calorieAmounts = exerciseMapData[1];
+            ArrayList<ArrayList<String>> exerciseMapData = exerciseMap.getMapData();
+            ArrayList<String> exerciseNames = exerciseMapData.get(0);
+            ArrayList<String> calorieAmounts = exerciseMapData.get(1);
 
             ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
 
-            // looping through all of the exercises and adding them to the table
+            // looping through all the exercises and adding them to the table
             for (int i = 0; i < exerciseNames.size(); i++) {
                 tableEntries.add(new TableEntry((String) exerciseNames.get(i), (String) calorieAmounts.get(i)));
             }
@@ -559,9 +522,9 @@ public class MainController {
         } else {
             // deselecting the other radio button and storing the info in the food hashmap to a list
             viewExercisesButton.setSelected(false);
-            List[] foodMapData = foodMap.getMapData();
-            List foodNames = foodMapData[0];
-            List calorieAmounts = foodMapData[1];
+            ArrayList<ArrayList<String>> foodMapData = foodMap.getMapData();
+            ArrayList<String> foodNames = foodMapData.get(0);
+            ArrayList<String> calorieAmounts = foodMapData.get(1);
 
             ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
 

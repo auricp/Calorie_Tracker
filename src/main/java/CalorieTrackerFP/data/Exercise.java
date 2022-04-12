@@ -14,15 +14,20 @@ public class Exercise extends UserMapData {
         return clonedMap;
     }
 
-    public List[] getMapData() {
-        List<String> exerciseNames = new ArrayList<String>();
-        List<String> calorieAmounts = new ArrayList<String>();
+    public ArrayList<ArrayList<String>> getMapData() {
+        ArrayList<String> exerciseNames = new ArrayList<String>();
+        ArrayList<String> calorieAmounts = new ArrayList<String>();
 
         for (String key : exerciseMap.keySet()) {
             exerciseNames.add(key);
             calorieAmounts.add(String.valueOf(exerciseMap.get(key)));
         }
-        List[] output = {exerciseNames, calorieAmounts};
+        ArrayList<ArrayList<String>> output = new ArrayList<>() {
+            {
+                add(exerciseNames);
+                add(calorieAmounts);
+            }
+        };
 
         return output;
     }

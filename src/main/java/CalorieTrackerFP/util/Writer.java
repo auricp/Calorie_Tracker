@@ -61,9 +61,9 @@ public class Writer {
                 Food localFoodMap = (Food) localDateArrayListHashMap.get(hashMapDate).get(0);
                 infoWriter.write("FOOD,");
                 //System.out.println(localFoodMap);
-                List[] foodMapInfo = localFoodMap.getMapData();
-                List foodNames = foodMapInfo[0];
-                List foodCalories = foodMapInfo[1];
+                ArrayList<ArrayList<String>> foodMapInfo = localFoodMap.getMapData();
+                ArrayList<String> foodNames = foodMapInfo.get(0);
+                ArrayList<String> foodCalories = foodMapInfo.get(1);
                 for (int i = 0; i < foodNames.size(); i++) {
                     infoWriter.write(String.valueOf(foodNames.get(i)) + ",");
                     infoWriter.write(String.valueOf(foodCalories.get(i)) + ",");
@@ -72,9 +72,9 @@ public class Writer {
 
                 Exercise localExerciseMap = (Exercise) localDateArrayListHashMap.get(hashMapDate).get(1);
                 infoWriter.write("EXERCISE,");
-                List[] exerciseMapInfo = localExerciseMap.getMapData();
-                List exerciseNames = exerciseMapInfo[0];
-                List exerciseCalories = exerciseMapInfo[1];
+                ArrayList<ArrayList<String>> exerciseMapInfo = localExerciseMap.getMapData();
+                ArrayList<String> exerciseNames = exerciseMapInfo.get(0);
+                ArrayList<String> exerciseCalories = exerciseMapInfo.get(1);
                 for (int i = 0; i < exerciseNames.size(); i++) {
                     infoWriter.write(String.valueOf(exerciseNames.get(i)) + ",");
                     infoWriter.write(String.valueOf(exerciseCalories.get(i)) + ",");
