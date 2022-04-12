@@ -60,7 +60,7 @@
    <center>
       <VBox prefHeight="754.0" prefWidth="506.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: LIGHTBLUE;">
                <children>
                   <DatePicker fx:id="datePicker" layoutX="220.0" layoutY="101.0" onAction="#datePickerPicked" prefHeight="26.0" prefWidth="116.0" />
                   <Label layoutX="112.0" layoutY="105.0" text="Choose the date:" />
@@ -86,7 +86,7 @@
                 <NumberAxis fx:id="caloriesYAxis" prefHeight="248.0" prefWidth="43.0" side="LEFT" />
               </yAxis>
             </BarChart>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: PINK;">
                <children>
                   <Label layoutX="14.0" layoutY="14.0" text="Measurement Converter" />
                   <TextField fx:id="lbsToKg" layoutX="78.0" layoutY="75.0" prefHeight="26.0" prefWidth="83.0" />
@@ -99,7 +99,6 @@
                   <Label layoutX="213.0" layoutY="119.0" text="Cm Conversion" />
                   <TextField fx:id="InToCmOutput" layoutX="302.0" layoutY="115.0" prefHeight="26.0" prefWidth="83.0" />
                </children></AnchorPane>
-            <TextField />
          </children>
       </VBox>
    </center>
@@ -127,7 +126,7 @@
                      <children>
                         <ChoiceBox fx:id="goalChoose" prefHeight="32.0" prefWidth="122.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <ChoiceBox fx:id="genderChoose" prefHeight="35.0" prefWidth="126.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="ageInput" alignment="CENTER" prefHeight="37.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="ageInput" prefHeight="37.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label alignment="CENTER" prefHeight="57.0" prefWidth="90.0" text="Goal" GridPane.rowIndex="1" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="69.0" text="Gender" textAlignment="CENTER" GridPane.rowIndex="2" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="100.0" text="Age" GridPane.rowIndex="3" />
@@ -149,7 +148,7 @@
                <children>
                   <Label layoutX="118.0" layoutY="15.0" prefHeight="17.0" prefWidth="79.0" text="View User Info" />
                   <Button layoutX="205.0" layoutY="11.0" mnemonicParsing="false" onAction="#viewUserInfoButton" text="Button" />
-                  <TextArea fx:id="viewUserInfoTextArea" layoutX="44.0" layoutY="32.0" prefHeight="200.0" prefWidth="306.0" />
+                  <TextArea fx:id="viewUserInfoTextArea" layoutX="32.0" layoutY="47.0" prefHeight="200.0" prefWidth="306.0" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="166.0" prefWidth="383.0" style="-fx-border-color: BLUE;">
@@ -186,7 +185,7 @@
                   <RadioButton fx:id="viewExercisesButton" layoutX="201.0" layoutY="31.0" mnemonicParsing="false" onAction="#viewExercisesButtonPressed" text="Exercises" />
                </children>
             </AnchorPane>
-            <TableView fx:id="mapTable" prefHeight="494.0" prefWidth="343.0">
+            <TableView fx:id="mapTable" prefHeight="494.0" prefWidth="343.0" style="-fx-border-color: PURPLE;">
               <columns>
                 <TableColumn fx:id="itemColumn" prefWidth="75.0" text="Item" />
                 <TableColumn fx:id="caloriesColumn" prefWidth="75.0" text="Calories" />
