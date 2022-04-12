@@ -537,7 +537,7 @@ public class MainController {
     }
 
     /**
-     *
+     * This function does the same as the one above, but instead of exercises it does it for food
      */
     @FXML
     void viewFoodButtonPressed() {
@@ -546,6 +546,7 @@ public class MainController {
             mapTable.getItems().clear();
             mapTable.getColumns().clear();
         } else {
+            // deselecting the other radio button and storing the info in the food hashmap to a list
             viewExercisesButton.setSelected(false);
             List[] foodMapData = foodMap.getMapData();
             List foodNames = foodMapData[0];
@@ -553,12 +554,15 @@ public class MainController {
 
             ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
 
+            //  looping through the food list and adding all of it to the display table
             for (int i = 0; i < foodNames.size(); i++) {
                 tableEntries.add(new TableEntry((String) foodNames.get(i), (String) calorieAmounts.get(i)));
             }
+            // clearing both maps so that new info can be added
             mapTable.getItems().clear();
             mapTable.getColumns().clear();
 
+            // Setting up the table food name and food calorie enteries
             TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Food");
             itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
@@ -571,17 +575,23 @@ public class MainController {
 
     }
 
+    /**
+     * This function generates the users graph for total calories and calories currently eaten in a 7 day range
+     */
     @FXML
     void generateGraphButtonPressed() {
 
+        // clearing the graph if there is no information
         if ((!(User.getGoal() == null)) && (!(User.getWeight() == 0)) && (!(User.getHeight() == 0))) {
             clearGraphPressed();
 
             int calorieTotal = Calories.getCalorieTotal(User.getWeight(), User.getGoal());
 
+            // setting the first bar for the bar graph (number of calories needed)
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             series.setName("Daily calories needed");
 
+            // looping through 7 days and adding that information to the bar graph to print
             for (int i = 0; i < 7; i++) {
                 String currentDay = currentDateInProgram.toString();
                 String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
@@ -592,14 +602,17 @@ public class MainController {
 
             datesVsCaloriesGraph.getData().add(series);
 
+            // adding the second type of bar (number of calories eaten) to the graph
             XYChart.Series<String, Number> series2 = new XYChart.Series<>();
             series2.setName("Daily calories recorded");
 
+            // looping through all days and getting info from hashmaps to display as a bar graph
             for (int i = 0; i < 7; i++) {
                 String currentDay = currentDateInProgram.toString();
                 String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
                 LocalDate thePreviousDate = LocalDate.parse(previousDay);
 
+                // Checking if the previous day is avaliable and if so print that information to the graph
                 if (dateListHashMap.containsKey(thePreviousDate)) {
                     if (!dateListHashMap.get(thePreviousDate).isEmpty()) {
                         ArrayList<UserMapData> maps = dateListHashMap.get(thePreviousDate);
@@ -610,8 +623,6 @@ public class MainController {
                         //System.out.println("added a new remaining calories (amount)");
                         series2.getData().add(new XYChart.Data<>(previousDay, remainingCalories));
                     } else {
-                        //System.out.println("maps did not have anything in them!");
-                        //System.out.println("added a new remaining calories (0) hehe");
                         series2.getData().add(new XYChart.Data<>(previousDay, 0));
                     }
                 } else {
@@ -624,23 +635,33 @@ public class MainController {
             updateALabel("Successfully created graph!", "success", Color.GREEN);
             generateGraphButton.setText("Refresh");
 
+            // If the above doesnt go through then tell the user that they are missing a piece of information
         } else {
             updateALabel("Missing one of: goal/weight/height to create the graph", "error", Color.RED);
         }
 
     }
 
+    /**
+     * This function simply clears the graph after the user presses the radio button a second time
+     */
     @FXML
     void clearGraphPressed() {
+        // clearing all the data on the graph and printing a success message
         datesVsCaloriesGraph.getData().clear();
         generateGraphButton.setText("Create");
         updateALabel("Successfully cleared the graph!", "success", Color.LIMEGREEN);
     }
 
+    /**
+     * This function converts lbs to kg and inches to cm to help the user
+     */
     @FXML
     void convertMeasurement(ActionEvent event) {
+        // checking if the textbox is not empty and if so do the conversion
         if(!lbsToKg.getText().equals("")){
             try{
+                // using the universal lbs to kg conversion number in order to convert it and then print it out to the rightmost textfield
                 double lbsToKgConversion = 2.205;
                 double weightLbs = Double.parseDouble(lbsToKg.getText());
                 double weightKg = weightLbs/lbsToKgConversion;
@@ -648,16 +669,20 @@ public class MainController {
             }catch(Exception e){
                 errorMsg.setText("Not a valid input for weight");
             }
+            // if the user wants to convert inches instead do the following
         }else if(!InToCm.getText().equals("")){
             try{
+                // using the inch to cm conversion convert the inputted inches into cm
                 double inchToCmConversion = 2.54;
                 double heightInch = Double.parseDouble(InToCm.getText());
                 double heightCm = heightInch * inchToCmConversion;
+                // printing the converted cm measurement to the rightmost text field
                 InToCmOutput.setText(String.format("%.2f",heightCm) + "cm");
             }catch(Exception e){
                 errorMsg.setText("Not a valid input for height");
             }
         }
+        // if the user enters both lbs and inches than do both of the above conversions simutaneously
         if(!lbsToKg.getText().equals("") && !InToCm.getText().equals("")){
             try{
                 double lbsToKgConversion = 2.205;
@@ -674,6 +699,9 @@ public class MainController {
         }
     }
 
+    /**
+     * This function opens the file chooser for the user and allows them to save a txt file wherever they want
+     */
     @FXML
     void saveFile() {
         try{

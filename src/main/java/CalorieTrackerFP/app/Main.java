@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
-    String var = "0";
 
     public static final String version = "1.0";
 
