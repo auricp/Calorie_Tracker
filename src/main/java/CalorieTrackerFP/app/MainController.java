@@ -8,6 +8,7 @@ import CalorieTrackerFP.data.UserMapData;
 import CalorieTrackerFP.person.Person;
 import CalorieTrackerFP.util.Reader;
 import CalorieTrackerFP.util.Writer;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class MainController {
+public class MainController extends Main{
 
     @FXML
     private DatePicker datePicker;
@@ -94,10 +95,6 @@ public class MainController {
 //    @FXML
 //    private TextArea calculationTextArea;
 
-
-
-
-
     @FXML
     private RadioButton addExerciseButton;
 
@@ -138,20 +135,20 @@ public class MainController {
     private NumberAxis caloriesYAxis;
 
 
-
+    // The following couple of lines are setting our initial variables that we need for the controller
     private String[] goals = new String[]{"muscle", "loss", "maintenance"};
     private String[] genders = new String[]{"man", "woman"};
-
     Person User;
     Food foodMap;
     Exercise exerciseMap;
 
     LocalDate now = LocalDate.from(LocalDateTime.now());
-
     LocalDate currentDateInProgram = now;
-
     HashMap<LocalDate, ArrayList<UserMapData>> dateListHashMap = new HashMap<>();
 
+    /**
+     * This function simply makes the new user as well as the food and exercise hashmaps and sets up the functionality of drop down menus and dates
+     */
     @FXML
     public void initialize(){
         User = new Person();
@@ -161,24 +158,17 @@ public class MainController {
         goalChoose.getItems().addAll(goals);
         genderChoose.getItems().addAll(genders);
 
-        System.out.println("current date: " + now);
-
+        //Setting up current date to have a hash map
         dateListHashMap.put(currentDateInProgram, new ArrayList<>());
 
         datesXAxis.setAnimated(false);
         caloriesYAxis.setAnimated(false);
     }
 
-    public void commandFile(File filename) {
-        try {
-            Reader.readFile(this.User, filename);
-            this.updateALabel("File loaded!", "success", Color.GREEN);
-        } catch (Exception var3) {
-            this.updateALabel("File not loaded", "error", Color.RED);
-        }
 
-    }
-
+    /**
+     * This function updates the hashmap that stores the selected date as a key, and both the food and exercise maps as values
+     */
     void updateDateHashmap() {
         //save the programs current foodMap and exerciseMap to the hashmap of dates, with the old date as the identifier
 
@@ -196,18 +186,19 @@ public class MainController {
         exerciseMap = new Exercise();
     }
 
+    /**
+     * This function allows the user to pick their current date using a calendar popup in the program
+     */
     @FXML
     void datePickerPicked(ActionEvent event) {
 
         //save the programs current foodMap and exerciseMap to the hashmap of dates, with the old date as the identifier
 
-        //System.out.println(datePicker.getValue());
         LocalDate userDate = datePicker.getValue();
 
         updateDateHashmap();
 
         for (LocalDate hashmapDate : dateListHashMap.keySet()) {
-            System.out.println("Date: " + hashmapDate + " Maps: " + dateListHashMap.get(hashmapDate));
         }
 
         currentDateInProgram = userDate;
@@ -231,10 +222,19 @@ public class MainController {
         }
     }
 
+    /**
+     * Allows the message updates to clear the other non updated message (either success or error)
+     * @param message The error/success message to be displayed
+     * @param whichLabel the choice of which label to assign the message to
+     * @param inputColour the color of the message
+     */
     void updateALabel(String message, String whichLabel, Color inputColour) {
+        // Two different cases to see whether to update the error or success message
         if (whichLabel.equals("error")) {
+            // setting the non-selected label to blank for a cleaner GUI
             successMsg.setText("");
             errorMsg.setText(message);
+            // changing the color of the txt
             errorMsg.setTextFill(inputColour);
         } else if (whichLabel.equals("success")) {
             errorMsg.setText("");
@@ -245,16 +245,22 @@ public class MainController {
         }
     }
 
+    /**
+     * This function allows the user to update their information in the top left of the GUI
+     */
     @FXML
     void infoUpdate() {
         this.User.setGoal((String)this.goalChoose.getValue());
         this.User.setGender((String)this.genderChoose.getValue());
+        // The following try catches go through all the inputs to see if the user inputs were valid (no letters only numbers)
         try {
             if (!this.ageInput.getText().equals("")) {
                 this.User.setAge(Integer.parseInt(this.ageInput.getText()));
             }
+            // updating the success label if there is not an error in parsing the string
             updateALabel("Info updated!","success",Color.GREEN);
         } catch (Exception var7) {
+            // updating the error message if an error does occur
             this.updateALabel(this.ageInput.getText() + "is invalid for age", "error", Color.RED);
         }
         try {
@@ -298,22 +304,33 @@ public class MainController {
         }
     }
 
+    /**
+     * This function displays all of the users inputted information in a text area below the button. If the user did not enter a specific type of data (the data will display as 0)
+     */
     @FXML
     void viewUserInfoButton(ActionEvent event) {
+        // Using new line in order to print all of the users info in a clean manner
         String print = "Goal: " + User.getGoal() + "\nGender: " + User.getGender() + "\nAge: " + User.getAge() + "\nWeight: " + User.getWeight() + "kg\nHeight: " + User.getHeight() + "cm\nNeck: " + User.getNeckMeasurement() + "cm\nWaist: " + User.getWaistMeasurement() + "cm\nHip: " + User.getHipMeasurement() + "cm";
         viewUserInfoTextArea.setText(print);
     }
 
+    /**
+     * This function generates the users Bmi or Body fat percentage depending on which radio button they clicked
+     * @param event
+     */
     @FXML
     void generateBfBmi(MouseEvent event) {
         try{
             if(bmiRadio.isSelected()){
+                // If there is not enough information to print out the bmi then tell the user that they are missing a measurement
                 if (String.valueOf(this.User.getBmi()).equals("NaN")) {
                     this.updateALabel("Missing one of: weight/height", "error", Color.RED);
                 }else{
+                    // Printing out the users BMI by using a method in the person class
                     bmiBfPrint.setText("Bmi is " + String.format("%.2f", User.getBmi()));
                     successMsg.setText("Bmi successfully calculated");
                 }
+                // Using the same method as above but instead for body fat percentage
             }else if(bfRadio.isSelected()){
                 bmiBfPrint.setText("Body fat % is " + String.format("%.2f", User.getBodyFat()));
                 successMsg.setText("Body fat % calculated");
@@ -339,8 +356,12 @@ public class MainController {
      }
      */
 
+    /**
+     * This function clears the other radio button if this one is pressed
+     */
     @FXML
     void addFoodButtonToggled(ActionEvent event) {
+        // setting other radioButton to false to unselect it
         addExerciseButton.setSelected(false);
         itemNameLabel.setText("Food:");
         addItemToMapButton.setText("Add food");
@@ -348,6 +369,9 @@ public class MainController {
 //        mapInputCalories.setText("");
     }
 
+    /**
+     * This function clears the other radio button if this one is pressed
+     */
     @FXML
     void addExerciseButtonToggled(ActionEvent event) {
         addFoodButton.setSelected(false);
@@ -357,32 +381,47 @@ public class MainController {
 //        mapInputCalories.setText("");
     }
 
+    /**
+     * This function clears the other radio button if this one is pressed
+     */
     @FXML
     void bodyFatToggled(ActionEvent event) {
         bmiRadio.setSelected(false);
     }
 
+    /**
+     * This function clears the other radio button if this one is pressed
+     */
     @FXML
     void BmiToggled(ActionEvent event) {
         bfRadio.setSelected(false);
     }
 
+    /**
+     * This function adds the given food or exercise as well as its corrosponding calories to a hashmap for the specific day
+     */
     @FXML
     void addItemToMapButtonClicked(ActionEvent event) {
+        // seeing whether the user wants to add a food or exercise
         boolean addFoodButtonPressed = addFoodButton.isSelected();
         boolean addExerciseButtonPressed = addExerciseButton.isSelected();
 
+        // if the user pressed either of the radio buttons do the following
         if (addFoodButtonPressed || addExerciseButtonPressed) {
             if (!mapItemInput.equals("") && !mapInputCalories.equals("")) {
                 try {
+                    // getting the number of calories that the user inputted
                     int calories = Integer.parseInt(mapInputCalories.getText());
                     if (addFoodButtonPressed) {
+                        // if the user entered a food then get the name of that food
                         String food = mapItemInput.getText();
                         boolean allLetters = food.chars().allMatch(Character::isLetter);
                         if (allLetters) {
+                            // add the food as well as its caloric amount to a hashmap
                             foodMap.addToMap(food, calories);
                             mapItemInput.setText("");
                             mapInputCalories.setText("");
+                            // updating success label for the user
                             updateALabel("Successfully inputted food!", "success", Color.GREEN);
                             viewFoodButton.setSelected(true);
                             viewFoodButtonPressed();
@@ -390,9 +429,11 @@ public class MainController {
                             throw new Exception();
                         }
                     } else {
+                        // if the exercise radio button is pressed then do the following
                         String exercise = mapItemInput.getText();
                         boolean allLetters = exercise.chars().allMatch(Character::isLetter);
                         if (allLetters) {
+                            //add the exercise name as well as the amount of calories to the exercise hashmap
                             exerciseMap.addToMap(exercise, calories);
                             updateALabel("Successfully inputted exercise!", "success", Color.GREEN);
                             viewExercisesButton.setSelected(true);
@@ -401,6 +442,7 @@ public class MainController {
                             throw new Exception();
                         }
                     }
+                    // the following 3 catches are for the above errors
                 } catch (Exception e) {
                     updateALabel("Please enter in strings for item inputs and integers for calories", "error" ,Color.RED);
                 }
@@ -412,6 +454,9 @@ public class MainController {
         }
     }
 
+    /**
+     * This function allows the user to view all the exercises that they performed on a specific day on the table located on the lefthand side of the window
+     */
     @FXML
     void viewExercisesButtonPressed() {
         //if the user deselects both buttons
@@ -419,6 +464,7 @@ public class MainController {
             mapTable.getItems().clear();
             mapTable.getColumns().clear();
         } else {
+            // adding the hashmap for food into a list for easier access
             viewFoodButton.setSelected(false);
             List[] exerciseMapData = exerciseMap.getMapData();
             List exerciseNames = exerciseMapData[0];
@@ -426,20 +472,22 @@ public class MainController {
 
             ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
 
+            // looping through all of the exercises and adding them to the table
             for (int i = 0; i < exerciseNames.size(); i++) {
-                System.out.println(exerciseNames.get(i));
-                System.out.println(calorieAmounts.get(i));
                 tableEntries.add(new TableEntry((String) exerciseNames.get(i), (String) calorieAmounts.get(i)));
             }
+            // clearing the maps after they are added to the tables
             mapTable.getItems().clear();
             mapTable.getColumns().clear();
 
+            // Using the tableColumn methods in order to set up the table with exercises on the lefthand side and calories on the right side
             TableColumn<TableEntry, String> itemColumn = new TableColumn<>("Exercises");
             itemColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
             TableColumn<TableEntry, String> calorieColumn = new TableColumn<>("Calories");
             calorieColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
 
+            // setting the items in the exercise maps as the table entries
             mapTable.setItems(tableEntries);
             mapTable.getColumns().addAll(itemColumn, calorieColumn);
         }
@@ -460,8 +508,6 @@ public class MainController {
             ObservableList<TableEntry> tableEntries = FXCollections.observableArrayList();
 
             for (int i = 0; i < foodNames.size(); i++) {
-                System.out.println(foodNames.get(i));
-                System.out.println(calorieAmounts.get(i));
                 tableEntries.add(new TableEntry((String) foodNames.get(i), (String) calorieAmounts.get(i)));
             }
             mapTable.getItems().clear();
@@ -504,7 +550,6 @@ public class MainController {
                     String previousDay = LocalDate.parse(currentDay).minusDays(i).toString();
 //                LocalDate thePreviousDate = LocalDate.parse(previousDay);
 
-                    System.out.println("added a new max calories");
                     series.getData().add(new XYChart.Data<>(previousDay, calorieTotal));
                 }
 
@@ -525,19 +570,15 @@ public class MainController {
                             UserMapData exerciseMap = maps.get(1);
                             int remainingCalories = Calories.calculateRemainingCals(foodMap.getMap(), exerciseMap.getMap(), calorieTotal);
 
-                            System.out.println("added a new remaining calories (amount)");
+
                             series2.getData().add(new XYChart.Data<>(previousDay, remainingCalories));
                         } else {
-                            System.out.println("maps did not have anything in them!");
-         System.out.println("added a new remaining calories (0) hehe");
                             series2.getData().add(new XYChart.Data<>(previousDay, 0));
                         }
                     } else {
-                        System.out.println("added a new remaining calories (0)");
                         series2.getData().add(new XYChart.Data<>(previousDay, 0));
                     }
                 }
-                System.out.println("\n");
                 datesVsCaloriesGraph.getData().add(series2);
                 updateALabel("Successfully created graph!", "success", Color.GREEN);
             } else {
@@ -610,5 +651,18 @@ public class MainController {
         }catch(Exception e){
             errorMsg.setText("File couldn't load!");
         }
+    }
+
+    @FXML
+    void InfoPopup(ActionEvent event) {
+        Alert ProgramInfo = new Alert(Alert.AlertType.INFORMATION, "Creators: Auric Adubofour-Poku/Colton Gowans \nEmails: auric.adubofourpoku@ucalgary.ca/colton.gowans@ucalgary.ca \nVersion: 1.0 \nInfo: A calorie tracker for people to see their fitness journey");
+        ProgramInfo.show();
+        ProgramInfo.setHeaderText("Program Details");
+        ProgramInfo.setTitle("Project Details");
+    }
+
+    @FXML
+    void exitProgram(ActionEvent event) {
+        Platform.exit();
     }
 }

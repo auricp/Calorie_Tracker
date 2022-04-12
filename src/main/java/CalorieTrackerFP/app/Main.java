@@ -10,11 +10,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+    String var = "0";
 
     public static final String version = "1.0";
 
+
     public static void main(String[] args) {
         launch(args);
+    }
+    public String filename(String[] args){
+        if (args.length == 1){
+           String name = args[0];
+           return name;
+        }
+        return "0";
     }
 
     @Override
