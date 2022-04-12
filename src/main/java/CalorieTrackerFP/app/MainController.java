@@ -290,8 +290,12 @@ public class MainController {
      */
     @FXML
     void infoUpdate() {
-        this.User.setGoal((String)this.goalChoose.getValue());
-        this.User.setGender((String)this.genderChoose.getValue());
+        if(goalChoose.getValue() != null){
+            User.setGoal(goalChoose.getValue());
+        }
+        if(genderChoose.getValue() != null){
+            User.setGender(genderChoose.getValue());
+        }
         // The following try catches go through all the inputs to see if the user inputs were valid (no letters only numbers)
         try {
             if (!this.ageInput.getText().equals("")) {
