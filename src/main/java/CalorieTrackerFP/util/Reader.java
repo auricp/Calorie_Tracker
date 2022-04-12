@@ -1,5 +1,6 @@
 package CalorieTrackerFP.util;
 
+import CalorieTrackerFP.data.Exercise;
 import CalorieTrackerFP.data.Food;
 import CalorieTrackerFP.data.UserMapData;
 import CalorieTrackerFP.person.Person;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Reader {
-    public static HashMap<LocalDate, ArrayList> readFile(Person ourUser, File chosen) throws FileNotFoundException {
+    public static HashMap<LocalDate, ArrayList<UserMapData>> readFile(Person ourUser, File chosen) throws FileNotFoundException {
         // making a new file for the inputted filename and initializing a scanner and arraylist
         Scanner fileReader = new Scanner(chosen);
         ArrayList<String> infoLines = new ArrayList<>();
@@ -24,7 +25,7 @@ public class Reader {
             infoLines.add(compile);
             amountOfLines++;
         }
-        System.out.println("Info lines:\n" + infoLines);
+        //System.out.println("Info lines:\n" + infoLines);
 
         // The following lines are removing the identifying words in front of the actual data and then setting that data to the user
 
@@ -63,69 +64,64 @@ public class Reader {
         //the next lines add the food and exercise data to a dateListHashMap, which is returned to the program and stored as the new one
 
         HashMap<LocalDate, ArrayList<UserMapData>> dateListHashMap = new HashMap<>();
-        Food foodMap = new Food();
+
+        //System.out.println("# of lines: " + amountOfLines);
 
         //if there is more data than just the user info (food data)
         if (amountOfLines > 7) {
-            System.out.println("more than just user info");
+            //System.out.println("more than just user info");
             //start at 8 because the first 0-7 indices are always user info, everything else until the end of the file
             //is guaranteed to start with a date
             for (int i = 8; i < amountOfLines; i++) {
+                //System.out.println("looping through a date line");
+                Food foodMap = new Food();
+                Exercise exerciseMap = new Exercise();
+                String dateToAdd = null;
+
                 String currentInfoLine = infoLines.get(i);
                 String[] currentInfoLineArray = currentInfoLine.split(",");
-                String datePart = currentInfoLineArray[0];
-                System.out.println(currentInfoLineArray);
+
+                //System.out.println(Arrays.toString(currentInfoLineArray));
+
                 boolean moveOnToExerciseMap = false;
+                //System.out.println("about to loop through the stuff on the specific line with a length of " + currentInfoLineArray.length);
                 for (int j = 0; j < currentInfoLineArray.length; j++) {
+
+                    //System.out.println("getting the first element as the date");
+                    dateToAdd = currentInfoLineArray[0];
+                    //System.out.println("on " + j + " pass through");
                     String str = currentInfoLineArray[j];
                     if (str.equals("EXERCISE")) {
+                        //System.out.println("found the EXERCISE");
                         moveOnToExerciseMap = true;
                     }
-
                     boolean allLetters = str.chars().allMatch(Character::isLetter);
                     //if the line is all letters (and not the starting "FOOD"
-                    if ((allLetters) && (!str.equals("FOOD"))) {
+                    if ((allLetters) && (!str.equals("FOOD")) && (!str.equals("EXERCISE"))) {
+                        //System.out.println("thing on line is a name (hopefully): " + str);
                         //if we are still adding to the foodMap
                         if (!moveOnToExerciseMap) {
-                            foodMap.addToMap(str, );
+                            //System.out.println("Added food " + str + " to the map with " + currentInfoLineArray[j+1] + " calories");
+                            foodMap.addToMap(str, Integer.parseInt(currentInfoLineArray[j+1]));
                         } else {
-
+                            //System.out.println("Added exercise " + str + " to the map with " + currentInfoLineArray[j+1] + " calories");
+                            exerciseMap.addToMap(str, Integer.parseInt(currentInfoLineArray[j+1]));
                         }
                     }
                 }
+                ArrayList<UserMapData> maps = new ArrayList<>() {{
+                    add(foodMap);
+                    add(exerciseMap);
+                }};
 
+                //System.out.println(foodMap);
 
-
-                    System.out.println(str);
-                }
-//                System.out.println("Date: " + datePart);
-
-//                String currentStr = null;
-//                while (!currentStr.equals("EXERCISE")) {
-//                    currentStr
-//                }
-//                String[] foodPart = currentInfoLine.split("FOOD");
-//
-//                String[] exercisePart = currentInfoLine.split("EXERCISE");
-//                for (String str : foodPart) {
-//                    System.out.println(str);
-//                }
-//                System.out.println(foodPart[1]);
-
-//                String[] arrayOfCurrentInfoLine = currentInfoLine.split(",");
-//                System.out.println("item at " + i + " spot is " + infoLines.get(i));
-//
-//                LocalDate fileDate = currentInfoLine;
+                dateListHashMap.put(LocalDate.parse(dateToAdd), maps);
             }
+
         }
-        LocalDate dateToAdd;
+        //System.out.println(dateListHashMap);
 
-
-        System.out.println("# of lines: " + amountOfLines);
-
-
-
-
-        return null;
+        return dateListHashMap;
     }
 }
