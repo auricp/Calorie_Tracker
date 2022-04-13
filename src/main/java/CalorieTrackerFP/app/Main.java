@@ -1,7 +1,5 @@
 package CalorieTrackerFP.app;
 
-import CalorieTrackerFP.person.Person;
-import CalorieTrackerFP.util.Reader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,14 +14,6 @@ public class Main extends Application {
     public static void main(String[] args) {
         MainController.args = args;
         launch(args);
-    }
-
-    public String filename(String[] args){
-        if (args.length == 1){
-           String name = args[0];
-           return name;
-        }
-        return "0";
     }
 
     @Override

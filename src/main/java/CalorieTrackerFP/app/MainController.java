@@ -1,9 +1,9 @@
 package CalorieTrackerFP.app;
 
 /*
-Colton Gowans, Auric Poku
-April 12th
-Tut 07
+  names: Colton Gowans, Auric Poku
+  date: April 12th
+  tutorial: Tut 07
  */
 
 import CalorieTrackerFP.calories.Calories;
@@ -34,6 +34,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+/**
+ * controller used for the entire project to allow the gui to be event driven
+ */
 public class MainController {
 
     public static String[] args;
@@ -153,24 +157,30 @@ public class MainController {
     HashMap<LocalDate, ArrayList<UserMapData>> dateListHashMap = new HashMap<>();
 
     /**
-     * This function simply makes the new user as well as the food and exercise hashmaps and sets up the functionality of drop down menus and dates
+     * This function runs once on startup, so it is used to initialize lots of different aspects of our program that need
+     * to have certain things initialized.
      */
     @FXML
     public void initialize(){
+        //make a new user, and new foodMap and exerciseMap
         User = new Person();
         foodMap = new Food();
         exerciseMap = new Exercise();
 
+        //try to load a file from the command line arguments
         command();
 
+        //set the choice pickers items
         goalChoose.getItems().addAll(goals);
         genderChoose.getItems().addAll(genders);
 
-        //System.out.println("current date: " + now);
+        //set the current date to the real world current date
         currentDateLabel.setText(now.toString());
 
+        //initialize the program with its first date (current day), which currently is empty on start up
         dateListHashMap.put(currentDateInProgram, new ArrayList<>());
 
+        //turn off all the animations for the graph (because it screws everything up)
         datesXAxis.setAnimated(false);
         caloriesYAxis.setAnimated(false);
         datesVsCaloriesGraph.setAnimated(false);
@@ -180,17 +190,13 @@ public class MainController {
      * This function updates the hashmap that stores the selected date as a key, and both the food and exercise maps as values
      */
     void updateDateHashmap() {
-        //save the programs current foodMap and exerciseMap to the hashmap of dates, with the old date as the identifier
-
         //put the current foodMap and exerciseMap into a list to be stored in the hashmap
         ArrayList<UserMapData> maps = new ArrayList<>() {{
             add(foodMap);
             add(exerciseMap);
         }};
-
-
-        //store the two maps with their respective day inside the hashmap, only if at least one of them has data
-        //otherwise, don't add that date to the hashmap
+        /* store the two maps with their respective day inside the hashmap, only if at least one of them has data
+        otherwise, don't add that date to the hashmap */
         if (!maps.isEmpty()) {
             dateListHashMap.put(currentDateInProgram, maps);
         }
@@ -206,21 +212,21 @@ public class MainController {
 
         //save the programs current foodMap and exerciseMap to the hashmap of dates, with the old date as the identifier
 
+        //put the current foodMap and exerciseMap into the date hashmap
         updateDateHashmap();
 
-        //old maps are stored into the dateHashMap, so make some blank objects
+        //old maps are stored into the dateHashMap, so make some blank maps for the new day
         foodMap = new Food();
         exerciseMap = new Exercise();
 
-        //System.out.println(datePicker.getValue());
+        //old date is stored into date hashmap, so give program the newly inputted date
         LocalDate userDate = datePicker.getValue();
-
         currentDateInProgram = userDate;
         currentDateLabel.setText(userDate.toString());
 
-        //getting the new foodMap and exerciseMap from the hashmap, because we switched to a different day
+        //getting the new foodMap and exerciseMap from the hashmap, because we switched to a different day (if there is any)
 
-        //if the date is already in the hashmap (there is already inputted data)
+        //if the date is already in the hashmap (there is already inputted data), otherwise, just use the blank maps already created
         if (dateListHashMap.containsKey(userDate)) {
             //System.out.println("Contains date already!");
             //get the list of the stored maps from the hashmap using the date
