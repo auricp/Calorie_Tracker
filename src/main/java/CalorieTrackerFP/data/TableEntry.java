@@ -7,8 +7,8 @@ package CalorieTrackerFP.data;
 public class TableEntry {
 
     //fields for names and calories that will be added to the table
-    private String name;
-    private String calories;
+    private final String name;
+    private final String calories;
 
     /**
      * Stores the name-calorie combo that wants to be added to the table into the fields of this class, which we can

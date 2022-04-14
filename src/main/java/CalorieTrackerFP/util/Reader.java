@@ -9,10 +9,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Reader is used to read the information that is inside a file formatted for our program, and extract the needed data
+ * to pass back to the program, allowing the user to load the same data from a file that they can edit in the program.
+ */
 public class Reader {
 
     /**
@@ -21,7 +24,7 @@ public class Reader {
      * @param ourUser the user object to add the measurements to
      * @param chosen the file to open
      * @return a hashmap of <LocalDate, ArrayList<UserMapData>>, which stores the foodMap and exerciseMaps based on the date
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException when we had a problem reading from the file (formatted wrong most likely)
      */
     public static HashMap<LocalDate, ArrayList<UserMapData>> readFile(Person ourUser, File chosen) throws FileNotFoundException {
         // making a new file for the inputted filename and initializing a scanner and arraylist
@@ -34,11 +37,11 @@ public class Reader {
             infoLines.add(compile);
             amountOfLines++;
         }
-        //System.out.println("Info lines:\n" + infoLines);
 
         // The following lines are removing the identifying words in front of the actual data and then setting that data to the user
 
-        //split the line by :, with the stuff on the right (index 1) being the actual measurement
+        /* split the line by :, with the stuff on the right (index 1) being the actual measurement. Many following
+        lines use the same functionality */
         String[] goalList = infoLines.get(0).split(":");
         String goal = goalList[1];
         ourUser.setGoal(goal);
@@ -75,15 +78,11 @@ public class Reader {
 
         HashMap<LocalDate, ArrayList<UserMapData>> dateListHashMap = new HashMap<>();
 
-        //System.out.println("# of lines: " + amountOfLines);
-
         //if there is more data than just the user info (food data)
         if (amountOfLines > 7) {
-            //System.out.println("more than just user info");
-            //start at 8 because the first 0-7 indices are always user info, everything else until the end of the file
-            //is guaranteed to start with a date
+            /* start at 8 because the first 0-7 indices are always user info, everything else until the end of the file
+            is guaranteed to start with a date */
             for (int i = 8; i < amountOfLines; i++) {
-                //System.out.println("looping through a date line");
                 //make new maps for the new line of the file, to add to and later store based on date of the line
                 Food foodMap = new Food();
                 Exercise exerciseMap = new Exercise();
@@ -92,34 +91,26 @@ public class Reader {
                 String currentInfoLine = infoLines.get(i);
                 String[] currentInfoLineArray = currentInfoLine.split(",");
 
-                //System.out.println(Arrays.toString(currentInfoLineArray));
-
                 //once you see "EXERCISE" in the file, the next pair of name,calories is now meant for the exerciseMap
                 boolean moveOnToExerciseMap = false;
                 //System.out.println("about to loop through the stuff on the specific line with a length of " + currentInfoLineArray.length);
                 for (int j = 0; j < currentInfoLineArray.length; j++) {
-
-                    //System.out.println("getting the first element as the date");
                     //first thing is always the date
                     dateToAdd = currentInfoLineArray[0];
-                    //System.out.println("on " + j + " pass through");
+
                     String str = currentInfoLineArray[j];
                     if (str.equals("EXERCISE")) {
-                        //System.out.println("found the EXERCISE");
                         moveOnToExerciseMap = true;
                     }
                     boolean allLetters = str.chars().allMatch(Character::isLetter);
-                    //if the line is all letters (and not the starting "FOOD" or "EXERCISE")
+                    //if the line is all letters (and not the starting "FOOD" or "EXERCISE", because those are just file identifiers)
                     if ((allLetters) && (!str.equals("FOOD")) && (!str.equals("EXERCISE"))) {
-                        //System.out.println("thing on line is a name (hopefully): " + str);
                         //if we are still adding to the foodMap
                         if (!moveOnToExerciseMap) {
-                            //System.out.println("Added food " + str + " to the map with " + currentInfoLineArray[j+1] + " calories");
-                            //add the name, and associated calorie amount, which is guaranteed to be the next thing
-                            //separated by a comma in the file
+                            /* add the name, and associated calorie amount, which is guaranteed to be the next thing
+                            separated by a comma in the file */
                             foodMap.addToMap(str, Integer.parseInt(currentInfoLineArray[j+1]));
                         } else {
-                            //System.out.println("Added exercise " + str + " to the map with " + currentInfoLineArray[j+1] + " calories");
                             exerciseMap.addToMap(str, Integer.parseInt(currentInfoLineArray[j+1]));
                         }
                     }
@@ -129,16 +120,11 @@ public class Reader {
                     add(foodMap);
                     add(exerciseMap);
                 }};
-
-                //System.out.println(foodMap);
-
                 //add the lines foodMap and exerciseMap to the big map, associated with its date
                 dateListHashMap.put(LocalDate.parse(dateToAdd), maps);
             }
 
         }
-        //System.out.println(dateListHashMap);
-
         return dateListHashMap;
     }
 }
