@@ -4,7 +4,7 @@ package CalorieTrackerFP.app;
   names: Colton Gowans, Auric Poku
   date: April 12th
   tutorial: Tut 07
- */
+*/
 
 import CalorieTrackerFP.calories.CalorieCalculations;
 import CalorieTrackerFP.data.Exercise;
@@ -167,6 +167,7 @@ public class MainController {
      */
     @FXML
     public void initialize(){
+
         //make a new user, and new foodMap and exerciseMap
         User = new Person();
         foodMap = new Food();
@@ -287,7 +288,7 @@ public class MainController {
                 this.User.setAge(Integer.parseInt(this.ageInput.getText()));
             }
             // updating the success label if there is not an error in parsing the string
-            updateALabel("Info updated!","success",Color.GREEN);
+            updateALabel("Info updated!","success",Color.LIMEGREEN);
         } catch (Exception var7) {
             // updating the error message if an error does occur
             this.updateALabel(this.ageInput.getText() + "is invalid for age", "error", Color.RED);
@@ -296,7 +297,7 @@ public class MainController {
             if (!this.weightInput.getText().equals("")) {
                 this.User.setWeight(Double.parseDouble(this.weightInput.getText()));
             }
-            updateALabel("Info updated!","success",Color.GREEN);
+            updateALabel("Info updated!","success",Color.LIMEGREEN);
         } catch (Exception var6) {
             this.updateALabel(this.weightInput.getText() + " is invalid for weight", "error", Color.RED);
         }
@@ -304,7 +305,7 @@ public class MainController {
             if (!this.heightInput.getText().equals("")) {
                 this.User.setHeight(Double.parseDouble(this.heightInput.getText()));
             }
-            updateALabel("Info updated!","success",Color.GREEN);
+            updateALabel("Info updated!","success",Color.LIMEGREEN);
         } catch (Exception var5) {
             this.updateALabel(this.heightInput.getText() + " is invalid for height", "error", Color.RED);
         }
@@ -312,7 +313,7 @@ public class MainController {
             if (!this.neckInput.getText().equals("")) {
                 this.User.setNeckMeasurement(Double.parseDouble(this.neckInput.getText()));
             }
-            updateALabel("Info updated!","success",Color.GREEN);
+            updateALabel("Info updated!","success",Color.LIMEGREEN);
         } catch (Exception var4) {
             this.updateALabel(this.neckInput.getText() + " is invalid for neck measurement", "error", Color.RED);
         }
@@ -440,7 +441,7 @@ public class MainController {
                             mapItemInput.setText("");
                             mapInputCalories.setText("");
                             // updating success label for the user
-                            updateALabel("Successfully inputted food!", "success", Color.GREEN);
+                            updateALabel("Successfully inputted food!", "success", Color.LIMEGREEN);
                             viewFoodButton.setSelected(true);
                             //redraw the table to incorporate the item
                             viewFoodButtonPressed();
@@ -456,7 +457,7 @@ public class MainController {
                         if (allLetters) {
                             //add the exercise name as well as the amount of calories to the exercise hashmap
                             exerciseMap.addToMap(exercise, calories);
-                            updateALabel("Successfully inputted exercise!", "success", Color.GREEN);
+                            updateALabel("Successfully inputted exercise!", "success", Color.LIMEGREEN);
                             viewExercisesButton.setSelected(true);
                             //redraw the table to incorporate the item
                             viewExercisesButtonPressed();
@@ -628,7 +629,7 @@ public class MainController {
             }
             //add the bars of consumed calories to our graph
             datesVsCaloriesGraph.getData().add(series2);
-            updateALabel("Successfully created graph!", "success", Color.GREEN);
+            updateALabel("Successfully created graph!", "success", Color.LIMEGREEN);
             //after creating a graph, the button to "create" it again should be titled refresh
             generateGraphButton.setText("Refresh");
 
