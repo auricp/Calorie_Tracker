@@ -6,7 +6,7 @@ package CalorieTrackerFP.app;
   tutorial: Tut 07
  */
 
-import CalorieTrackerFP.calories.Calories;
+import CalorieTrackerFP.calories.CalorieCalculations;
 import CalorieTrackerFP.data.Exercise;
 import CalorieTrackerFP.data.Food;
 import CalorieTrackerFP.data.TableEntry;
@@ -40,9 +40,11 @@ import java.util.HashMap;
  */
 public class MainController {
 
+    //constants used to convert between imperial and metric
     static final double inchToCMConversion = 2.54;
     static final double lbsToKgConversion = 2.205;
 
+    //store the arguments from a command line run
     public static String[] args;
 
     @FXML
@@ -577,7 +579,7 @@ public class MainController {
             //clear the graph, as we will be re drawing it
             clearGraphPressed();
 
-            int calorieTotal = Calories.getCalorieTotal(User.getWeight(), User.getGoal());
+            int calorieTotal = CalorieCalculations.getCalorieTotal(User.getWeight(), User.getGoal());
 
             //setting the first bar for the bar graph (number of calories needed)
             XYChart.Series<String, Number> series = new XYChart.Series<>();
@@ -613,7 +615,7 @@ public class MainController {
                         ArrayList<UserMapData> maps = dateListHashMap.get(thePreviousDate);
                         UserMapData foodMap = maps.get(0);
                         UserMapData exerciseMap = maps.get(1);
-                        int remainingCalories = Calories.calculateRemainingCals(foodMap.getMap(), exerciseMap.getMap(), calorieTotal);
+                        int remainingCalories = CalorieCalculations.getCaloriesConsumed(foodMap.getMap(), exerciseMap.getMap());
 
                         //add that date's bar of consumed calories
                         series2.getData().add(new XYChart.Data<>(previousDay, remainingCalories));
@@ -744,10 +746,11 @@ public class MainController {
      */
     @FXML
     void InfoPopup() {
-        Alert ProgramInfo = new Alert(Alert.AlertType.INFORMATION, "Creators: Auric Adubofour-Poku/Colton Gowans \n" +
-                "Emails: auric.adubofourpoku@ucalgary.ca/colton.gowans@ucalgary.ca \n" +
-                "Version: 1.0 \n" +
-                "Info: A calorie tracker for people to see their fitness journey");
+        Alert ProgramInfo = new Alert(Alert.AlertType.INFORMATION, """
+                Creators: Auric Adubofour-Poku/Colton Gowans\s
+                Emails: auric.adubofourpoku@ucalgary.ca/colton.gowans@ucalgary.ca\s
+                Version: 1.0\s
+                Info: A calorie tracker for people to see their fitness journey""");
         ProgramInfo.show();
         ProgramInfo.setHeaderText("Program Details");
         ProgramInfo.setTitle("Project Details");
