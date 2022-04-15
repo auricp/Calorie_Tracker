@@ -8,6 +8,12 @@ class PersonTest {
     // Creating a new person named user
     Person user = new Person();
 
+
+    /**
+     * ALL THE FOLLOWING METHOD COMMENTS ARE REDUNDANT SO COMMENTS FOR FIRST METHOD IS THE SAME FOR ALL
+     */
+
+
     /**
      * All the following tests check to see if the Person object setters and getters work for the majority of the methods with different inputts
      */
