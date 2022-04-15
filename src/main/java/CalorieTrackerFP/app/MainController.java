@@ -148,16 +148,13 @@ public class MainController {
 
 
     // The following couple of lines are setting our initial variables that we need for the controller
-    private final String[] goals = new String[]{"muscle", "loss", "maintenance"};
-    private final String[] genders = new String[]{"man", "woman"};
 
     Person User;
     Food foodMap;
     Exercise exerciseMap;
 
-    LocalDate now = LocalDate.from(LocalDateTime.now());
-
-    LocalDate currentDateInProgram = now;
+    LocalDate realWorldDate = LocalDate.from(LocalDateTime.now());
+    LocalDate currentDateInProgram = realWorldDate;
 
     HashMap<LocalDate, ArrayList<UserMapData>> dateListHashMap = new HashMap<>();
 
@@ -178,12 +175,15 @@ public class MainController {
             command();
         }
 
+        final String[] goals = new String[]{"muscle", "loss", "maintenance"};
+        final String[] genders = new String[]{"man", "woman"};
+
         //set the choice pickers items
         goalChoose.getItems().addAll(goals);
         genderChoose.getItems().addAll(genders);
 
         //set the current date to the real world current date
-        currentDateLabel.setText(now.toString());
+        currentDateLabel.setText(realWorldDate.toString());
 
         //initialize the program with its first date (current day), which currently is empty on start up
         dateListHashMap.put(currentDateInProgram, new ArrayList<>());
@@ -746,7 +746,7 @@ public class MainController {
      * Displays a hand dandy little pop up showing our information
      */
     @FXML
-    void InfoPopup() {
+    void infoPopup() {
         Alert ProgramInfo = new Alert(Alert.AlertType.INFORMATION, """
                 Creators: Auric Adubofour-Poku/Colton Gowans\s
                 Emails: auric.adubofourpoku@ucalgary.ca/colton.gowans@ucalgary.ca\s
