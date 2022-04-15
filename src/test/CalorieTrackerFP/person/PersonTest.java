@@ -5,12 +5,19 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {
+    // Creating a new person named user
     Person user = new Person();
 
+    /**
+     * All the following tests check to see if the Person object setters and getters work for the majority of the methods with different inputts
+     */
     @Test
     void setGoal() {
+        // Setting the expected string or integer (for all tests in this class)
         String expected = "muscle";
+        // Using the setter the set that expected variable to the Person
         user.setGoal("muscle");
+        // Using assert equals to check to see if the expected variable equals the getter for the Person (set to user) for all functions
         assertEquals(expected,user.getGoal());
     }
 
