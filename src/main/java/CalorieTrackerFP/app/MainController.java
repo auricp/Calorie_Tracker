@@ -701,9 +701,9 @@ public class MainController {
         try{
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(new File("."));
-            fileChooser.setInitialFileName("savedInfo.txt");
-            //only allow the user to save files as a txt file
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+            fileChooser.setInitialFileName("savedInfo.csv");
+            //only allow the user to save files as a csv file
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             //open the file saving window
             File chosen = fileChooser.showSaveDialog(new Stage());
             //actually save the contents of the program as the contents of the file
@@ -723,8 +723,8 @@ public class MainController {
         try{
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select a file to open");
-            //only allow the user to load txt files
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+            //only allow the user to load csv files
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             fileChooser.setInitialDirectory(new File("."));
             //open up the load file window
             File chosen = fileChooser.showOpenDialog(new Stage());

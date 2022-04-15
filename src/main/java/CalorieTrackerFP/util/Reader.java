@@ -42,35 +42,35 @@ public class Reader {
 
         /* split the line by :, with the stuff on the right (index 1) being the actual measurement. Many following
         lines use the same functionality */
-        String[] goalList = infoLines.get(0).split(":");
+        String[] goalList = infoLines.get(0).split(",");
         String goal = goalList[1];
         ourUser.setGoal(goal);
 
-        String[] genderList = infoLines.get(1).split(":");
+        String[] genderList = infoLines.get(1).split(",");
         String gender = genderList[1];
         ourUser.setGender(gender);
 
-        String[] ageList = infoLines.get(2).split(":");
+        String[] ageList = infoLines.get(2).split(",");
         int age = Integer.parseInt(ageList[1]);
         ourUser.setAge(age);
 
-        String[] weightList = infoLines.get(3).split(":");
+        String[] weightList = infoLines.get(3).split(",");
         double weight = Double.parseDouble(weightList[1]);
         ourUser.setWeight(weight);
 
-        String[] HeightList = infoLines.get(4).split(":");
+        String[] HeightList = infoLines.get(4).split(",");
         double height = Double.parseDouble(HeightList[1]);
         ourUser.setHeight(height);
 
-        String[] neckList = infoLines.get(5).split(":");
+        String[] neckList = infoLines.get(5).split(",");
         double neck = Double.parseDouble(neckList[1]);
         ourUser.setNeckMeasurement(neck);
 
-        String[] waistList = infoLines.get(6).split(":");
+        String[] waistList = infoLines.get(6).split(",");
         double waist = Double.parseDouble(waistList[1]);
         ourUser.setWaistMeasurement(waist);
 
-        String[] hipList = infoLines.get(7).split(":");
+        String[] hipList = infoLines.get(7).split(",");
         double hip = Double.parseDouble(hipList[1]);
         ourUser.setHipMeasurement(hip);
 

@@ -263,7 +263,7 @@
                   <TextField fx:id="mapItemInput" layoutX="157.0" layoutY="86.0" prefHeight="25.0" prefWidth="77.0" />
                   <Label alignment="CENTER_RIGHT" layoutX="91.0" layoutY="118.0" prefHeight="17.0" prefWidth="50.0" text="Calories:" textFill="#0b0054" />
                   <TextField fx:id="mapInputCalories" layoutX="157.0" layoutY="114.0" prefHeight="25.0" prefWidth="76.0" />
-                  <Button fx:id="addItemToMapButton" alignment="CENTER" layoutX="127.0" layoutY="152.0" mnemonicParsing="false" onAction="#addItemToMapButtonClicked" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: #edf2ff;" text="Add Item" textFill="#0b0054">
+                  <Button fx:id="addItemToMapButton" alignment="CENTER" layoutX="123.0" layoutY="157.0" mnemonicParsing="false" onAction="#addItemToMapButtonClicked" prefHeight="27.0" prefWidth="99.0" style="-fx-background-color: #edf2ff;" text="Add Item" textFill="#0b0054">
                      <font>
                         <Font size="13.0" />
                      </font></Button>

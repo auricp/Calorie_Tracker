@@ -31,21 +31,21 @@ public class Writer {
         BufferedWriter infoWriter = new BufferedWriter(new FileWriter(filenameWrite));
         // Next chunk of lines are individually adding all the users' information to the file with the identifying words in front of them
         // Cannot use a loop since all information is received from a different getter in the person class
-        infoWriter.write("Goal:" + ourUser.getGoal());
+        infoWriter.write("Goal," + ourUser.getGoal());
         infoWriter.newLine();
-        infoWriter.write("Gender:" + ourUser.getGender());
+        infoWriter.write("Gender," + ourUser.getGender());
         infoWriter.newLine();
-        infoWriter.write("Age:" + ourUser.getAge());
+        infoWriter.write("Age," + ourUser.getAge());
         infoWriter.newLine();
-        infoWriter.write("Weight(kg):" + ourUser.getWeight());
+        infoWriter.write("Weight(kg)," + ourUser.getWeight());
         infoWriter.newLine();
-        infoWriter.write("Height(cm):" + ourUser.getHeight());
+        infoWriter.write("Height(cm)," + ourUser.getHeight());
         infoWriter.newLine();
-        infoWriter.write("Neck(cm):" + ourUser.getNeckMeasurement());
+        infoWriter.write("Neck(cm)," + ourUser.getNeckMeasurement());
         infoWriter.newLine();
-        infoWriter.write("Waist(cm):" + ourUser.getWaistMeasurement());
+        infoWriter.write("Waist(cm)," + ourUser.getWaistMeasurement());
         infoWriter.newLine();
-        infoWriter.write("Hip(cm):" + ourUser.getHipMeasurement());
+        infoWriter.write("Hip(cm)," + ourUser.getHipMeasurement());
 
         //second, for all the dates entered, save the corresponding food and exercise data
 
