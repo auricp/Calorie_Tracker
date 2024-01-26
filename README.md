@@ -1,5 +1,5 @@
-#CPSC233 Final Project
-######Final Project for Colton Gowans and Auric Poku in CPSC 233 W22
+# Calorie Tracker
+## Developers: Auric Poku and Colton Gowans
 ###How to run the jar file
 To run the jar file of this program, you will first need to navigate to
 the path of the jar file in the terminal.  
